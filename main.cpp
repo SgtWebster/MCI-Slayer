@@ -10,15 +10,18 @@ using namespace std;
 
 
 
-void hline() {
-    std::cout << "--------------------------------------" << endl;
+void hline() {     //horizontal line (standard)
+    for (int i = 0; i < 70; i++) {
+        std::cout << "-";
+    }
+    std::cout << std::endl;
 }
 
-void hlineAsterix(int count) {
+void hlineAsterix(int count) {     //horizontal line (with asterix and variable length)
     for (int i = 0; i < count; i++) {
         std::cout << "*";
     }
-    std::cout << endl;
+    std::cout << std::endl;
 }
 
 const int itemCount = 10;
@@ -62,7 +65,7 @@ int main() {
 *             \_|  |_/\____/\___/     \____/\_____/\_| |_/\_/ \____/\_| \_|
 *    )" << std::endl;
     hlineAsterix(hlineLength);
-    std::cout << "*  Willkommen zu >>MCI Slayer<< Version 0.2!  Ein Spiel von Oliver Ulrich Weber (c) 2024 " << std::endl;
+    std::cout << "*  Willkommen zu >>MCI Slayer<< Version 0.2a! Ein Spiel von Oliver Ulrich Weber (c) 2024 " << std::endl;
     hlineAsterix(hlineLength);
     std::cout << "* Traust du dich in die Tiefen des Dungeons? Und kannst du den Wischmop der Macht finden? " << std::endl;
     hlineAsterix(hlineLength);
@@ -171,7 +174,7 @@ int main() {
                 for (int i = 0; i < 10; i++) {
                     if (hero.inventory[i].isValid) {
                         foundItems++;
-                        std::cout << "[Inventar-Slot "<< i+1 << "] " << hero.inventory[i].name << " (Wert: " << hero.inventory[i].value << ")" << std::endl;
+                        std::cout << "[*] " << hero.inventory[i].name << " (Wert: " << hero.inventory[i].value << ")" << std::endl;
                     }
 
                 }
@@ -192,7 +195,7 @@ int main() {
                             hline();
                             for (int i = 0; i < 10; i++) {
                                 if (hero.inventory[i].isValid) {
-                                    std::cout << "[Inventar-Slot "<< i+1 << "] " << hero.inventory[i].name << " (Wert: " << hero.inventory[i].value << ")" << std::endl;
+                                    std::cout << "[Inventar-Slot ("<< i+1 << ") ] " << hero.inventory[i].name << " (Wert: " << hero.inventory[i].value << ")" << std::endl;
                                 }
                             }
                             hline();
@@ -211,7 +214,7 @@ int main() {
                             hline();
                             for (int i = 0; i < 10; i++) {
                                 if (hero.inventory[i].isValid) {
-                                    std::cout << "[Inventar-Slot "<< i+1 << "] " << hero.inventory[i].name << std::endl;
+                                    std::cout << "[Inventar-Slot ("<< i+1 << ") ] " << hero.inventory[i].name << std::endl;
                                 }
                             }
                             hline();
@@ -242,14 +245,14 @@ int main() {
                 std::cout << "Du pruefst deine Ausruestung..." << std::endl;
                 hline();
                 if (hero.equipment[0].isValid) {
-                    std::cout << "Waffe: " << hero.equipment[0].name << " (Angriff: +10)" << std::endl;
+                    std::cout << "[*] Waffe: " << hero.equipment[0].name << " (Angriff: +10)" << std::endl;
                 } else {
-                    std::cout << "Waffe: keine (Faeuste)" << std::endl;
+                    std::cout << "[*] Waffe: keine (Faeuste)" << std::endl;
                 }
                 if (hero.equipment[1].isValid) {
-                    std::cout << "Ruestung: " << hero.equipment[1].name << " (Abwehr: +10)" << std::endl;
+                    std::cout << "[*] Ruestung: " << hero.equipment[1].name << " (Abwehr: +10)" << std::endl;
                 } else {
-                    std::cout << "Ruestung: keine" << std::endl;
+                    std::cout << "[*] Ruestung: keine" << std::endl;
                 }
                 break;
 
@@ -268,11 +271,16 @@ int main() {
                 }
 
                 break;
+
+            case 42:                                                //EASTER EGG
+                std::cout << "Du hast die Antwort auf alles gefunden!" << std::endl;
+                std::cout << "Somit gibt es hier nichts noch wertvolleres zu entdecken..." << std::endl;
+
             case 9:                                                             //QUIT
                 std::cout << hero.name << " verlaesst den MCI-Dungeon samt ihrer Schaetze." << std::endl;
-                if(hero.theForce) {
-                    std::cout << "* * * Die Macht ist mit " << hero.name << "! * * *" << std::endl;
-                }
+                std::cout << "Du hast " << hero.gold << " Gold und " << hero.health << " Lebenspunkte." << std::endl;
+                if(hero.theForce) {std::cout << "* * * Die Macht ist mit " << hero.name << "! * * *" << std::endl;}       // The Force is with you!
+                if(hero.gold == 0 || enemyCount == 0) {std::cerr << "Moment mal! Du hast kein einziges mal gekaempft?!" << std::endl;}    // No fight at all?
                 std::cout << "Das Spiel wird beendet..." << std::endl;
                 hlineAsterix(hlineLength);
                 return 0;
