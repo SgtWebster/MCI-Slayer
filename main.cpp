@@ -6,7 +6,7 @@
 #include "hero.h"
 #include "item.h"
 #include "character.h"
-using namespace std;
+//using namespace std;
 
 
 
@@ -65,7 +65,7 @@ int main() {
 *             \_|  |_/\____/\___/     \____/\_____/\_| |_/\_/ \____/\_| \_|
 *    )" << std::endl;
     hlineAsterix(hlineLength);
-    std::cout << "*  Willkommen zu >>MCI Slayer<< Version 0.2a! Ein Spiel von Oliver Ulrich Weber (c) 2024 " << std::endl;
+    std::cout << "*  Willkommen zu >>MCI Slayer<< Version UEZ_2! Ein Spiel von Oliver Ulrich Weber (c) 2024 " << std::endl;
     hlineAsterix(hlineLength);
     std::cout << "* Traust du dich in die Tiefen des Dungeons? Und kannst du den Wischmop der Macht finden? " << std::endl;
     hlineAsterix(hlineLength);
@@ -87,9 +87,9 @@ int main() {
     initHero(&hero, &input_temp, 300, 0);
 
     hline();
-    std::cout << "Deine Heldin heisst " << input_temp << "!" << endl;
+    std::cout << "Deine Heldin heisst " << input_temp << "!" << std::endl;
     hline();
-    std::cout << input_temp << " betritt den MCI-Dungeon..." << endl;
+    std::cout << input_temp << " betritt den MCI-Dungeon..." << std::endl;
 
 
     int position = 0;
@@ -171,10 +171,10 @@ int main() {
                 int foundItems;
                 foundItems = 0;
                 hline();
-                for (int i = 0; i < 10; i++) {
-                    if (hero.inventory[i].isValid) {
+                for (auto & i : hero.inventory) {       //for each item in the inventory    //TODO: check
+                    if (i.isValid) {
                         foundItems++;
-                        std::cout << "[*] " << hero.inventory[i].name << " (Wert: " << hero.inventory[i].value << ")" << std::endl;
+                        std::cout << "[*] " << i.name << " (Wert: " << i.value << ")" << std::endl;
                     }
 
                 }
@@ -258,7 +258,7 @@ int main() {
 
 
             case 4:                                                             //EXPLORE DUNGEON
-                std::cout << "Du erkundest den Dungeon" << (position > 0 ? " weiter" : "") << "..." << ::endl;
+                std::cout << "Du erkundest den Dungeon" << (position > 0 ? " weiter" : "") << "..." << std::endl;
                 position++;
 
                 if (position >= 6) {

@@ -112,3 +112,6 @@ Gegenstand Schwert wurde zum Inventar der Heldin hinzugefügt.
 Gegenstand Zaubertrank wurde verkauft. Annina besitzt nun 250 Gold.
 Gegenstand Zaubertrank wurde verkauft. Annina besitzt nun 280 Gold.
 
+
+
+

@@ -7,7 +7,7 @@
 #include "hero.h"
 #include "character.h"
 #include "item.h"
-using namespace std;
+//using namespace std;
 
 
 
@@ -24,9 +24,9 @@ void Character_t::attack(Character_t* character, Hero_t* hero) {
 
 
 
-void initCharacter(Character_t* character, string *name, int health, int gold) {   //Initializes the character Caution: character and name must be a pointer!
+void initCharacter(Character_t* character, std::string *name, int health, int gold) {   //Initializes the character Caution: character and name must be a pointer!
     if (character == nullptr) {
-        std::cerr << "Error: character is nullptr!" << endl;
+        std::cerr << "Error: character is nullptr!" << std::endl;
         return;
     }
     character->name = *name;

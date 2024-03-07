@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.27)
-project(exercise_1_1)
+project(MCI-Slayer)
 
 set(CMAKE_CXX_STANDARD 17)
 
