@@ -8,17 +8,53 @@
 #include "item.h"
 #include "hero.h"
 
-struct Hero_t;          //Forward declaration of Hero_t
+class Hero;          //Forward declaration of Hero
 
-struct Character_t {    //Struct for Character (enemys)
+class Character {    //class for Character (enemys)
+public:
+    //Konstruktor
+    Character(std::string& name, int health, int gold);   //Parameterkonstruktor
+    Character() : name("unkown"), health(0), gold(0) {}         //Standardkonstruktor
+
+    //Destruktor
+    ~Character() = default;
+
+    //Methods
+    void getDamage(int damage); //setter for health
+    void earnGold(int gold);    //setter for gold
+
+    //getter
+    std::string getName() const { return name; }
+    int getHealth() const { return health; }
+    int getGold() const { return gold; }
+
+    //setter
+    void setName(std::string& newName) { this->name = newName; }
+    void setHealth(int newHealth) { this->health = newHealth; }
+    void setGold(int newGold) { this->gold = newGold; }
+
+    //getter for inventory         //TODO Inventory Handling -> siehe ChatGPT -> mittels Container/Vektor
+    std::string getInventoryName(int itemIndex) const { return inventory[itemIndex].getName(); }
+    int getInventoryValue(int itemIndex) const { return inventory[itemIndex].getValue(); }
+    int getInventoryType(int itemIndex) const { return inventory[itemIndex].getType(); }
+    bool getInventoryIsValid(int itemIndex) const { return inventory[itemIndex].getIsValid(); }
+    int getInventoryStrengh(int itemIndex) const { return inventory[itemIndex].getStrengh(); }
+
+    //inventory handling
+
+private:
     std::string name;
     int health;
     int gold;
-    Item_t inventory[10];
+    Item inventory[10];
 
-    void attack(Character_t* character, Hero_t* hero);
+};
+/////////////////////////////////////////////// Schurken-Angelegenheiten
+class Schurke : public Character {
+    public:
+    void attack(Hero* hero);   //Schurke greift Helden an
+    void newEmeny(std::string& name, int health, int gold);
 };
 
-void initCharacter(Character_t* character, std::string *name, int health, int gold);
 
 #endif //CHARACTER_H

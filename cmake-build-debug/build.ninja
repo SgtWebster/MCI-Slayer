@@ -41,55 +41,55 @@ include CMakeFiles/rules.ninja
 
 cmake_ninja_workdir = C$:/MCI/Assignments/Semester$ 2/MdSE2/CLion/mci_slayer/cmake-build-debug/
 # =============================================================================
-# Object build statements for EXECUTABLE target exercise_1_1
+# Object build statements for EXECUTABLE target mci-slayer
 
 
 #############################################
-# Order-only phony target for exercise_1_1
+# Order-only phony target for mci-slayer
 
-build cmake_object_order_depends_target_exercise_1_1: phony || CMakeFiles/exercise_1_1.dir
+build cmake_object_order_depends_target_mci-slayer: phony || CMakeFiles/mci-slayer.dir
 
-build CMakeFiles/exercise_1_1.dir/main.cpp.obj: CXX_COMPILER__exercise_1_1_unscanned_Debug C$:/MCI/Assignments/Semester$ 2/MdSE2/CLion/mci_slayer/main.cpp || cmake_object_order_depends_target_exercise_1_1
-  DEP_FILE = CMakeFiles\exercise_1_1.dir\main.cpp.obj.d
+build CMakeFiles/mci-slayer.dir/main.cpp.obj: CXX_COMPILER__mci-slayer_unscanned_Debug C$:/MCI/Assignments/Semester$ 2/MdSE2/CLion/mci_slayer/main.cpp || cmake_object_order_depends_target_mci-slayer
+  DEP_FILE = CMakeFiles\mci-slayer.dir\main.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\exercise_1_1.dir
-  OBJECT_FILE_DIR = CMakeFiles\exercise_1_1.dir
+  OBJECT_DIR = CMakeFiles\mci-slayer.dir
+  OBJECT_FILE_DIR = CMakeFiles\mci-slayer.dir
 
-build CMakeFiles/exercise_1_1.dir/hero.cpp.obj: CXX_COMPILER__exercise_1_1_unscanned_Debug C$:/MCI/Assignments/Semester$ 2/MdSE2/CLion/mci_slayer/hero.cpp || cmake_object_order_depends_target_exercise_1_1
-  DEP_FILE = CMakeFiles\exercise_1_1.dir\hero.cpp.obj.d
+build CMakeFiles/mci-slayer.dir/hero.cpp.obj: CXX_COMPILER__mci-slayer_unscanned_Debug C$:/MCI/Assignments/Semester$ 2/MdSE2/CLion/mci_slayer/hero.cpp || cmake_object_order_depends_target_mci-slayer
+  DEP_FILE = CMakeFiles\mci-slayer.dir\hero.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\exercise_1_1.dir
-  OBJECT_FILE_DIR = CMakeFiles\exercise_1_1.dir
+  OBJECT_DIR = CMakeFiles\mci-slayer.dir
+  OBJECT_FILE_DIR = CMakeFiles\mci-slayer.dir
 
-build CMakeFiles/exercise_1_1.dir/character.cpp.obj: CXX_COMPILER__exercise_1_1_unscanned_Debug C$:/MCI/Assignments/Semester$ 2/MdSE2/CLion/mci_slayer/character.cpp || cmake_object_order_depends_target_exercise_1_1
-  DEP_FILE = CMakeFiles\exercise_1_1.dir\character.cpp.obj.d
+build CMakeFiles/mci-slayer.dir/character.cpp.obj: CXX_COMPILER__mci-slayer_unscanned_Debug C$:/MCI/Assignments/Semester$ 2/MdSE2/CLion/mci_slayer/character.cpp || cmake_object_order_depends_target_mci-slayer
+  DEP_FILE = CMakeFiles\mci-slayer.dir\character.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\exercise_1_1.dir
-  OBJECT_FILE_DIR = CMakeFiles\exercise_1_1.dir
+  OBJECT_DIR = CMakeFiles\mci-slayer.dir
+  OBJECT_FILE_DIR = CMakeFiles\mci-slayer.dir
 
-build CMakeFiles/exercise_1_1.dir/item.cpp.obj: CXX_COMPILER__exercise_1_1_unscanned_Debug C$:/MCI/Assignments/Semester$ 2/MdSE2/CLion/mci_slayer/item.cpp || cmake_object_order_depends_target_exercise_1_1
-  DEP_FILE = CMakeFiles\exercise_1_1.dir\item.cpp.obj.d
+build CMakeFiles/mci-slayer.dir/item.cpp.obj: CXX_COMPILER__mci-slayer_unscanned_Debug C$:/MCI/Assignments/Semester$ 2/MdSE2/CLion/mci_slayer/item.cpp || cmake_object_order_depends_target_mci-slayer
+  DEP_FILE = CMakeFiles\mci-slayer.dir\item.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles\exercise_1_1.dir
-  OBJECT_FILE_DIR = CMakeFiles\exercise_1_1.dir
+  OBJECT_DIR = CMakeFiles\mci-slayer.dir
+  OBJECT_FILE_DIR = CMakeFiles\mci-slayer.dir
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target exercise_1_1
+# Link build statements for EXECUTABLE target mci-slayer
 
 
 #############################################
-# Link the executable exercise_1_1.exe
+# Link the executable mci-slayer.exe
 
-build exercise_1_1.exe: CXX_EXECUTABLE_LINKER__exercise_1_1_Debug CMakeFiles/exercise_1_1.dir/main.cpp.obj CMakeFiles/exercise_1_1.dir/hero.cpp.obj CMakeFiles/exercise_1_1.dir/character.cpp.obj CMakeFiles/exercise_1_1.dir/item.cpp.obj
+build mci-slayer.exe: CXX_EXECUTABLE_LINKER__mci-slayer_Debug CMakeFiles/mci-slayer.dir/main.cpp.obj CMakeFiles/mci-slayer.dir/hero.cpp.obj CMakeFiles/mci-slayer.dir/character.cpp.obj CMakeFiles/mci-slayer.dir/item.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = CMakeFiles\exercise_1_1.dir
+  OBJECT_DIR = CMakeFiles\mci-slayer.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_FILE = exercise_1_1.exe
-  TARGET_IMPLIB = libexercise_1_1.dll.a
-  TARGET_PDB = exercise_1_1.exe.dbg
+  TARGET_FILE = mci-slayer.exe
+  TARGET_IMPLIB = libmci-slayer.dll.a
+  TARGET_PDB = mci-slayer.exe.dbg
 
 
 #############################################
@@ -117,7 +117,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # =============================================================================
 # Target aliases.
 
-build exercise_1_1: phony exercise_1_1.exe
+build mci-slayer: phony mci-slayer.exe
 
 # =============================================================================
 # Folder targets.
@@ -127,7 +127,7 @@ build exercise_1_1: phony exercise_1_1.exe
 #############################################
 # Folder: C:/MCI/Assignments/Semester 2/MdSE2/CLion/mci_slayer/cmake-build-debug
 
-build all: phony exercise_1_1.exe
+build all: phony mci-slayer.exe
 
 # =============================================================================
 # Built-in targets

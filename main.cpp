@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <limits>
+#include <array>
 #include "hero.h"
 #include "item.h"
 #include "character.h"
@@ -25,34 +26,36 @@ void hlineAsterix(int count) {     //horizontal line (with asterix and variable 
 }
 
 const int itemCount = 10;
-Item_t items[itemCount];
+std::array<Item, itemCount> items;
+
 void createItemList() {
     std::string standardItemNames[itemCount] = {"Schwert", "Dolch", "Bogen", "Zaubertrank", "Helm", "Ritterruestung", "Stiefel", "Ring", "Amulett", "Wischmop der Macht"};
     int standardItemValues[itemCount] = {50, 30, 40, 30, 25, 60, 20, 100, 75, 100};
     int standardItemTypes[itemCount] = {1, 1, 1, 0, 2, 2, 2, 2, 2, 3};    //0 = consumable, 1 = weapon, 2 = armor, 3 = special
+    int standardItemsStrengh[itemCount] = {10, 5, 8, 10, 10, 25, 5, 10, 15, 100};
     for (int i = 0; i < itemCount; i++) {
-        initItem(&items[i], &standardItemNames[i], standardItemValues[i]);
-        items[i].type = standardItemTypes[i];
+            items[i] = Item(standardItemNames[i], standardItemValues[i], standardItemTypes[i]), true, standardItemsStrengh[i];
     }
-
 }
 
-void itemDrop(Character_t* character, Hero_t* hero, int itemIndex, int inventarCout) {
-    std::cout << "Der Schurke " << character->name << " hat ein Item fallen gelassen!" << std::endl;
-    hero->inventory[inventarCout] = items[itemIndex];
+Schurke emeny; //temp character (empty)
+
+void itemDrop(Character* character, Hero* hero, int itemIndex, int inventarCout) {
+    std::cout << "Der Schurke " << character->getName() << " hat ein Item fallen gelassen!" << std::endl;
+    hero->inventory[inventarCout] = items[itemIndex];    //TODO POINTER
     std::cout << "Gegenstand " << items[itemIndex].name << " wurde zum Inventar der Heldin hinzugefuegt." << std::endl;
 }
 
 
-void goldDrop(Character_t* character, Hero_t* hero, int gold) {
+void goldDrop(Character* character, Hero* hero, int gold) {
     std::cout << "Der Schurke " << character->name << " hat " << gold << " Gold fallen gelassen!" << std::endl;
     hero->gold += gold;
     std::cout << "Gold wurde zum Inventar der Heldin hinzugefuegt. " << hero->name << " besitzt nun " << hero->gold << " Gold." << std::endl;
 }
 
 int main() {
-    Hero_t hero;  //create a "empty" hero
-    std::string input_temp;    //temp string for text-input
+//    Hero hero;  //create a "empty" hero
+    std::string inputemp;    //temp string for text-input
     int hlineLength = 90;
 
     hlineAsterix(hlineLength);
@@ -77,19 +80,20 @@ int main() {
     hlineAsterix(hlineLength);
     std::cout << "" << std::endl;
     std::cout << "Bitte waehle den Namen deiner Heldin:" << std::endl;
-    std::getline(std::cin, input_temp);
+    std::getline(std::cin, inputemp);
 
-    if (input_temp.empty()) {
+    if (inputemp.empty()) {
         std::cout << "Wenn du keinen Namen eingeben willst, dann koennen wir es auch gleich bleiben lassen." << std::endl;
         hlineAsterix(hlineLength);
         return 0;
     }
-    initHero(&hero, &input_temp, 300, 0);
+    hero = Hero(inputemp, 300, 0);
+    //initHero(&hero, &inputemp, 300, 0);
 
     hline();
-    std::cout << "Deine Heldin heisst " << input_temp << "!" << std::endl;
+    std::cout << "Deine Heldin heisst " << inputemp << "!" << std::endl;
     hline();
-    std::cout << input_temp << " betritt den MCI-Dungeon..." << std::endl;
+    std::cout << inputemp << " betritt den MCI-Dungeon..." << std::endl;
 
 
     int position = 0;
@@ -97,7 +101,7 @@ int main() {
 
     // enemy temps
     int enemyCount = 0;
-    Character_t character;
+
     std::string enemyName;
     int enemyHealth;
 
@@ -106,7 +110,7 @@ int main() {
     createItemList();
 
     while(true) {
-        int input_int_temp = 0;
+        int input_intemp = 0;
         if (position == 0) {
             std::cout << "Du befindest dich im Hauptraum des Dungeons. Was moechtest du tun?" << std::endl;
         } else if (position == 5) {
@@ -123,11 +127,11 @@ int main() {
         }
         std::cout << "[9] Dungeon verlassen" << std::endl;
         std::cout << "Deine Wahl:";
-        std::cin >> input_int_temp;
+        std::cin >> input_intemp;
         std::cin.ignore();  //ignore the newline in the input buffer
         hline();
 
-        switch (input_int_temp) {
+        switch (input_intemp) {
             case 1:                                                             //FIGHT!
                 std::cout << "Du suchst fiese Schurken..." << std::endl;
 
@@ -187,9 +191,9 @@ int main() {
                     std::cout << "[2] Item verwenden oder ausruesten" << std::endl;
                     std::cout << "[9] Hab genug vom Inventar" << std::endl;
                     std::cout << "Deine Wahl:";
-                    std::cin >> input_int_temp;
+                    std::cin >> input_intemp;
                     std::cin.ignore();  //ignore the newline in the input buffer
-                    switch (input_int_temp) {
+                    switch (input_intemp) {
                         case 1:
                             std::cout << "Welches Item moechtest du verkaufen?" << std::endl;
                             hline();
@@ -200,12 +204,12 @@ int main() {
                             }
                             hline();
                             std::cout << "Slotnummer:";
-                            std::cin >> input_int_temp;
-                            input_int_temp--;
+                            std::cin >> input_intemp;
+                            input_intemp--;
                             std::cin.ignore();        //ignore the newline in the input buffer
 
                             hline();
-                            hero.sellItem(&hero, input_int_temp);
+                            hero.sellItem(&hero, input_intemp);
 
                             break;
                         case 2:
@@ -219,12 +223,12 @@ int main() {
                             }
                             hline();
                             std::cout << "Slotnummer:";
-                            std::cin >> input_int_temp;
-                            input_int_temp--;
+                            std::cin >> input_intemp;
+                            input_intemp--;
                             std::cin.ignore();        //ignore the newline in the input buffer
 
                             hline();
-                            hero.useItem(&hero, input_int_temp);
+                            hero.useItem(&hero, input_intemp);
 
                             break;
                         case 9:

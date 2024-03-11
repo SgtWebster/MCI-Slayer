@@ -10,32 +10,36 @@
 //using namespace std;
 
 
+Character::Character(std::string& name, int health, int gold) : name(name), health(health), gold(gold) {
 
-void Character_t::attack(Character_t* character, Hero_t* hero) {
-    int attackPower = rand() % 11 + 5;
-
-    if (hero->equipment[1].isValid) {
-        attackPower -= 5;
+    for (auto & item : this->inventory) {
+        item = Item((std::string &) "empty", 0, 0, false);     // Direkte Zuweisung zu 'item', nicht 'inventory[i]'
     }
-
-    std::cout << character->name <<  " tifft " << hero->name << " fuer " << attackPower << " Lebenspunkte!" << std::endl;
-    hero->health -= attackPower;
 }
 
+void Character::getDamage(int damage) {    //setter for health
+    this->health -= damage;
+}
 
+void Character::earnGold(int goldValue) {   //setter for gold
+    this->gold += goldValue;
+}
 
-void initCharacter(Character_t* character, std::string *name, int health, int gold) {   //Initializes the character Caution: character and name must be a pointer!
-    if (character == nullptr) {
-        std::cerr << "Error: character is nullptr!" << std::endl;
-        return;
+/////////////////////////////////////////////// Schurken-Angelegenheiten
+
+void Schurke::attack(Hero* hero) {
+    int attackPower = rand() % 11 + 5;
+
+    if (hero->getEquipmentIsValid(1)) {   //...wenn Held eine Rüstung trägt... (wird der Angriff um 5 verringert)
+        attackPower -= hero->getEquipmentStrengh(1);
     }
-    character->name = *name;
-    character->health = health;
-    character->gold = gold;
 
-    for (auto &i: character->inventory) {
-        i.name = "empty";
-        i.value = 0;
-        i.isValid = false;
-    }
+    std::cout << "Der Schurke " << Schurke::getName() <<  " tifft " << hero->getName() << " fuer " << attackPower << " Lebenspunkte!" << std::endl;
+    hero->getDamage(attackPower);
+}
+
+void Schurke::newEmeny(std::string& name, int health, int gold) {
+    this->setName(name);
+    this->setHealth(health);
+    this->setGold(gold);
 }

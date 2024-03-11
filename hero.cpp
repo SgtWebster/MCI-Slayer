@@ -8,37 +8,53 @@
 #include "hero.h"
 #include "item.h"
 #include "character.h"
-using namespace std;
+//using namespace std;
 
 
-void Hero_t::attack(Hero_t* hero, Character_t* character) {
-    int attackPower = rand() % 11 + 15;
-    std::string weaponName;
-    weaponName = "";
-    if (hero->equipment[0].isValid) {
-        weaponName = hero->equipment[0].name;
-        attackPower += 10;
+
+Hero::Hero(std::string& name, int health, int gold) : name(name), health(health), gold(gold) {    //Parameterkonstruktor für Hero
+    this->theForce = false;
+    this->fight = false;
+
+    for (auto & item : this->equipment) {
+        item = Item((std::string &) "empty", 0, 0, false); // Direkte Zuweisung zu 'item', nicht 'equipment[i]'
     }
-    if (hero->theForce) {
-        attackPower += 25;
-    }
-    std::cout << hero->name <<  " tifft"<< (hero->equipment[0].isValid ? " mit ihrem ": "") << weaponName << " " << character->name << " fuer " << attackPower << " Lebenspunkte!" << (hero->theForce ? " Die Macht ist stark mit dieser da!" :"") << std::endl;
-    character->health -= attackPower;
+
+}
+
+void Hero::startFight(Schurke *enemy) {
+//TODO
 }
 
 
-void Hero_t::sellItem(Hero_t* hero, int index) {
-
-    if (hero == nullptr || index < 0 || index >= 10) {
-        std::cerr << "Ungueltige Eingabe: Slot-Platz nicht gueltig!" << std::endl;
-        return;
+void Hero::attack(Schurke *emeny) {
+    int attackPower = rand() % 11 + 15;
+    std::string weaponName;
+    weaponName = "";
+    if (this->getEquipmentIsValid(0)) {
+        weaponName = this->getEquipmentName(0); //equipment index 0 = weapon
+        attackPower += this->getEquipmentStrengh(0);
     }
+    if (this->theForce) {
+        attackPower += 25;
+    }
+    std::cout << this->getName() <<  " tifft"<< (this->equipment[0].getIsValid() ? " mit ihrem ": "") << weaponName << " " << emeny->getName() << " fuer " << attackPower << " Lebenspunkte!" << (this->getTheForce() ? " Die Macht ist stark mit dieser da!" :"") << std::endl;
+    emeny->getDamage(attackPower);
+}
 
-    Item_t* item = &(hero->inventory[index]);
+
+void Hero::sellItem(int index) {
+
+//    if (hero == nullptr || index < 0 || index >= 10) {
+//        std::cerr << "Ungueltige Eingabe: Slot-Platz nicht gueltig!" << std::endl;
+//        return;
+}
+
+    Item* item = &(this->inventory[index]);
 
     if (item->isValid) {
-        hero->gold += item->value;
-        std::cout << "Gegenstand " << item->name << " wurde verkauft. " << hero->name << " besitzt nun " << hero->gold << " Gold." << std::endl;
+        this->gold += item->value;
+        std::cout << "Gegenstand " << item->name << " wurde verkauft. " << this->name << " besitzt nun " << this->gold << " Gold." << std::endl;
         item->isValid = false;
         item->name = "empty";
         item->value = 0;
@@ -50,43 +66,43 @@ void Hero_t::sellItem(Hero_t* hero, int index) {
 
 }
 
-void Hero_t::useItem(Hero_t* hero, int index) {
-    if (hero == nullptr || index < 0 || index >= 10) {
-        std::cout << "Ungueltige Eingabe: Slot-Platz nicht gueltig!" << std::endl;
-        return;
-    }
+void Hero::useItem(int index) {
+//    if (hero == nullptr || index < 0 || index >= 10) {
+//        std::cout << "Ungueltige Eingabe: Slot-Platz nicht gueltig!" << std::endl;
+//        return;
+//    }
 
-    Item_t* item = &(hero->inventory[index]);
+    Item* item = &(this->inventory[index]);
 
     if (item->isValid) {
 
         //0 = consumable, 1 = weapon, 2 = armor
         switch (item->type) {
             case 0:
-                hero->health += 50;
-                std::cout << "Gegenstand " << item->name << " wurde benutzt. " << hero->name << " besitzt nun " << hero->health << " Lebenspunkte." << std::endl;
+                this->health += 50;
+                std::cout << "Gegenstand " << item->name << " wurde benutzt. " << this->name << " besitzt nun " << this->health << " Lebenspunkte." << std::endl;
                 item->isValid = false;
                 item->name = "empty";
                 item->value = 0;
                 break;
             case 1:
-                hero->equipment[0] = *item;
-                std::cout << "Waffe " << item->name << " wurde angelegt. " << hero->name << " besitzt nun " << hero->equipment[0].name << " als Waffe." << std::endl;
+                this->equipment[0] = *item;
+                std::cout << "Waffe " << item->name << " wurde angelegt. " << this->name << " besitzt nun " << this->equipment[0].name << " als Waffe." << std::endl;
                 item->isValid = false;
                 item->name = "empty";
                 item->value = 0;
                 break;
             case 2:
-                hero->equipment[1] = *item;
-                std::cout << "Ruestung " << item->name << " wurde angelegt. " << hero->name << " besitzt nun " << hero->equipment[1].name << " als Ruestung." << std::endl;
+                this->equipment[1] = *item;
+                std::cout << "Ruestung " << item->name << " wurde angelegt. " << this->name << " besitzt nun " << this->equipment[1].name << " als Ruestung." << std::endl;
                 item->isValid = false;
                 item->name = "empty";
                 item->value = 0;
                 break;
             case 3:
-                std::cout << "Gegenstand " << item->name << " wurde benutzt. " << hero->name << " spuert eine Erschuetterung in der Macht!" << std::endl;
-                std::cout << "Die Macht ist mit " << hero->name << "!" << std::endl;
-                hero->theForce = true;
+                std::cout << "Gegenstand " << item->name << " wurde benutzt. " << this->name << " spuert eine Erschuetterung in der Macht!" << std::endl;
+                std::cout << "Die Macht ist mit " << this->name << "!" << std::endl;
+                this->theForce = true;
                 item->isValid = false;
                 item->name = "empty";
                 item->value = 0;
@@ -101,41 +117,25 @@ void Hero_t::useItem(Hero_t* hero, int index) {
     }
 }
 
-bool Hero_t::fight(Hero_t* hero, Character_t* character) {                     //FIGHT! FIGHT! FIGHT! false = lost, true = won
-    std::cout << hero-> name << " greift " << character->name << " an!" << std::endl;
+
+bool Hero::fight(Character* character) {                     //FIGHT! FIGHT! FIGHT! false = lost, true = won
+    std::cout << this-> name << " greift " << character->name << " an!" << std::endl;
 
     while (true) {
-        hero->attack(hero, character);
+        this->attack(this, character);
         if (character->health <= 0) {
             return true;
         }
-        character->attack(character, hero);
-        if (hero->health <= 0) {
+        character->attack(character, this);
+        if (this->health <= 0) {
             return false;
         }
     }
     return false;   //Should never be reached (Backup)
 }
 
-void initHero(Hero_t* hero, std::string* name, int health, int gold) {   //Initializes the hero Caution: hero and name must be a pointer!
-    if (hero == nullptr) {
-        std::cerr << "Error: hero is nullptr!" << std::endl;
-        return;
-    }
-    hero->name = *name;
-    hero->health = health;
-    hero->gold = gold;
 
-    for (auto & i : hero->inventory) {
-        i.name = "empty";
-        i.value = 0;
-        i.isValid = false;
-    }
-
-    for (auto & i : hero->equipment) {
-        i.name = "empty";
-        i.value = 0;
-        i.isValid = false;
-    }
-    hero->theForce = false;
+void getDamage(int damage) {
+    this->health -= damage;
+    std::cout << this->name << " hat " << damage << " Schaden erlitten. " << this->name << " hat nun " << this->health << " Lebenspunkte." << std::endl;
 }

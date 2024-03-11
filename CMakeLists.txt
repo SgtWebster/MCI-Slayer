@@ -3,7 +3,7 @@ project(MCI-Slayer)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(exercise_1_1 main.cpp
+add_executable(mci-slayer main.cpp
         hero.cpp
         hero.h
         character.cpp
