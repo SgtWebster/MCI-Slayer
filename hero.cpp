@@ -13,7 +13,7 @@
 
 
 
-Hero::Hero(std::string& name, int health, int gold) : Character(name, health, gold) {    //Parameterkonstruktor für Hero
+Hero::Hero(const std::string& name, int health, int gold) : Character(name, health, gold) {    //Parameterkonstruktor für Hero
     this->theForce = false;
     this->fight = false;
 }
@@ -48,6 +48,13 @@ bool Hero::startFight(Schurke* emeny) {                     //FIGHT-Modus! Läuf
     }
     return false;   //Should never be reached (Backup)
 }
+
+void Hero::setTheForceTrue()  {
+    this->theForce = true;
+//    std::cout << this->getNameChar() << " spuert eine Erschuetterung in der Macht!" << std::endl;
+//    std::cout << "Die Macht ist mit " << this->getNameChar() << "!" << std::endl;
+}
+
 
 // folgendes wurde in Inventar und Character bereits implementiert
 //void Hero::sellItem(int index) {

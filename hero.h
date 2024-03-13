@@ -18,7 +18,7 @@ class Hero : public Character {           //class for hero - inherits from Chara
 
 public:
     //Konstruktor
-    Hero(std::string& name, int health, int gold);
+    Hero(const std::string& name, int health, int gold);
 
 
     //Destruktor
@@ -30,13 +30,6 @@ public:
 
     bool startFight(Schurke *enemy);    //FIGHT-Modus! Läuft so lange bis der Kampf zu ende ist! false = lost, true = won
 
-    //getter for equipment  -- not needed anymore
-    //std::string getEquipmentName(int itemIndex) { return equipment[itemIndex].getName(); }
-    //int getEquipmentValue(int itemIndex) { return equipment[itemIndex].getValue(); }
-    //int getEquipmentType(int itemIndex) { return equipment[itemIndex].getType(); }
-    //bool getEquipmentIsValid(int itemIndex) { return equipment[itemIndex].getIsValid(); }
-    //int getEquipmentStrengh(int itemIndex) { return equipment[itemIndex].getStrengh(); }
-
     //setter/getter for fight
     void setFightStart() { this->fight = true; }
     bool getFightStatus() const { return fight; }
@@ -44,11 +37,10 @@ public:
 
     //getter+setter for theForce
     bool getTheForce() const { return this->theForce; }
-    void setTheForceTrue(bool) { this->theForce = true; }
+    void setTheForceTrue() override;
 
 
 private:
-//    Item equipment[MAX_EQUIPMENT_SLOTS];   // equipment[0] = weapon, equipment[1] = armor
     bool fight;
     bool theForce;
 };

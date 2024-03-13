@@ -8,8 +8,8 @@
 #include "schurke.h"
 //#include "inventory.h"
 
-void Schurke::newEmeny(std::string& name, int health, int gold) {
-    setName(name);
+void Schurke::newEmeny(const std::string& name, int health, int gold) {
+    setName(const_cast<std::string &>(name));
     setHealth(health);
     setGold(gold);
 }
@@ -38,6 +38,15 @@ void Schurke::itemDrop(Hero* hero, const Item& defaultItem) {
     // Füge das Item zum Inventar des Helden hinzu
     hero->addItemToInventory(defaultItem);
 
-    std::cout << "Gegenstand " << defaultItem.getName() << " wurde zum Inventar der Heldin hinzugefügt." << std::endl;
+    std::cout << "Gegenstand " << defaultItem.getName() << " wurde zum Inventar der Heldin hinzugefuegt." << std::endl;
+}
+
+void Schurke::goldDrop(Hero *hero, int gold) {
+    std::cout << "Der Schurke " << this->getNameChar() << " hat " << gold << " Gold fallen gelassen!" << std::endl;
+
+    // Füge das Gold zum Inventar des Helden hinzu
+    hero->earnGold(gold);
+
+    std::cout << hero->getNameChar() << " hat nun " << hero->getGold() << " Gold." << std::endl;
 }
 

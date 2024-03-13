@@ -7,7 +7,7 @@
 #include "item.h"
 //using namespace std;
 
-Item::Item(std::string& name, int value, int type, bool isValid, int strengh ) : name(name), value(value), type(type), isValid(isValid), strengh(strengh) {}
+Item::Item(const std::string& name, int value, int type, bool isValid, int strengh ) : name(name), value(value), type(type), isValid(isValid), strengh(strengh) {}
 
 
 

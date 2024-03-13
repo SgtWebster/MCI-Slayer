@@ -7,8 +7,8 @@
 #include "item.h"
 
 //max Inventory and Equipment Slots
-constexpr int MAX_INVENTORY_SLOTS = 10;
-constexpr int MAX_EQUIPMENT_SLOTS = 2;
+constexpr int MAX_INVENTORY_SLOTS = 20;
+//constexpr int MAX_EQUIPMENT_SLOTS = 2;  //not needed for the moment
 
 constexpr int COUNT_OF_DEFAULT_ITEMS = 10;
 

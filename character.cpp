@@ -6,14 +6,14 @@
 #include <string>
 //#include "hero.h"
 #include "character.h"
-#include "item.h"
+//#include "item.h"
 //using namespace std;
 
 
-Character::Character(std::string& name, int health, int gold) : name(name), health(health), gold(gold) {
+Character::Character(const std::string& name, int health, int gold) : name(name), health(health), gold(gold) {
     this->inventory = Inventory();
-    this->weapon = Item((std::string &) "empty", 0, 0, false);
-    this->armor = Item((std::string &) "empty", 0, 0, false);
+    this->weapon = Item("empty", 0, 0, false);
+    this->armor = Item("empty", 0, 0, false);
 }
 
 void Character::getDamage(int damage) {    //setter for health
@@ -65,9 +65,26 @@ void Character::silentArmorEquip(const Item &item) {
     this->armor = item;
 }
 
+void Character::checkBackpack() {
+    this->inventory.checkBackpack(this);
+}
+
+void Character::checkEquipment() {
+    //hline();
+    if (this->getWeaponIsValid()) {
+        std::cout << "[*] Waffe: " << this->getWeaponName() << " (Angriff: +"<< this->getWeaponStrength() <<")" << std::endl;
+    } else {
+        std::cout << "[*] Waffe: keine (Faeuste)" << std::endl;
+    }
+    if (this->getArmorIsValid()) {
+        std::cout << "[*] Ruestung: " << this->getArmorName() << " (Abwehr: +"<< this->getArmorStrength() <<")" << std::endl;
+    } else {
+        std::cout << "[*] Ruestung: keine" << std::endl;
+    }
+}
 
 
-void setTheForceTrue() {
+void Character::setTheForceTrue() {
     std::cerr << "Die Macht ist nicht stark mit diesem hier!" << std::endl;   //sollte bei Character eigentlich nie vorkommen (daher ungenutzt)
 }
 /////////////////////////////////////////////// Schurken-Angelegenheiten

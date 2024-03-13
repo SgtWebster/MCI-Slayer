@@ -5,12 +5,14 @@
 #ifndef ITEM_H
 #define ITEM_H
 
+#include <string>
+
 class Item {       //Class for Items
 public:
     //Konstruktoren
     Item() : name("empty"), value(0), type(0), isValid(false), strengh(0) {} //Standardkonstruktor (Platzhalter-Item)
-    Item(Item const &) = default;                                           //Copy-Konstruktor
-    Item(std::string& name, int value, int type, bool isValid = false, int strengh = 0); //Parameterkonstruktor
+    Item(Item const &) = default;                                            //Copy-Konstruktor
+    Item(const std::string& name, int value, int type, bool isValid = false, int strength = 0);   //Parameterkonstruktor
 
     //Destruktor
     ~Item() = default;

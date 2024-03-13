@@ -5,7 +5,7 @@
 #include <iostream>
 #include <array>
 #include "GameConfig.h"
-#include "item.h"
+//#include "item.h"
 
 //Linien
 void hline() {     //horizontal line (standard)

@@ -5,7 +5,7 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include "item.h"
+//#include "item.h"
 //#include "hero.h"
 //#include "schurke.h"
 #include "inventory.h"
@@ -13,11 +13,12 @@
 
 
 class Hero;          //Forward declaration of Hero
+class Inventory;     //Forward declaration of Inventory
 
 class Character {    //class for Character (enemys)
 public:
     //Konstruktor
-    Character(std::string& name, int health, int gold);   //Parameterkonstruktor
+    Character(const std::string& name, int health, int gold);   //Parameterkonstruktor
     Character() : name("unkown"), health(0), gold(0) {}         //Standardkonstruktor
 
     //Destruktor
@@ -55,18 +56,21 @@ public:
     std::string getWeaponName() const { return this->weapon.getName(); }
     bool getWeaponIsValid() const { return this->weapon.getIsValid(); }
     int getWeaponStrength() const { return this->weapon.getStrengh(); }
+    Item getWeapon() const { return this->weapon; }
 
     //getter for equipment - Armor
     std::string getArmorName() const { return this->armor.getName(); }
     bool getArmorIsValid() const { return this->armor.getIsValid(); }
     int getArmorStrength() const { return this->armor.getStrengh(); }
-
+    Item getArmor() const { return this->armor; }
 
     //getter Force
-    void setTheForceTrue(); //setter for theForce
+    virtual void setTheForceTrue(); //setter for theForce
 
     //inventory handling
     void addItemToInventory(const Item &item);
+    void checkBackpack();
+    void checkEquipment();
 
 private:
     std::string name;
@@ -76,7 +80,6 @@ private:
 
     Item weapon;
     Item armor;
-
 
 };
 /////////////////////////////////////////////// Schurken-Angelegenheiten

@@ -4,6 +4,7 @@
 
 #include "inventory.h"
 #include "GameConfig.h"
+#include "character.h"
 //#include "hero.h"
 #include <limits>
 #include <iostream>
@@ -32,13 +33,13 @@ const Item* Inventory::getItem(int index) const {
 
 
 ///////////////////////////////////////////////////////////////////////////////// <Inventar-Handling>
-int Inventory::listItems() const {    // Das ganze Inventar ausgeben
+int Inventory::listItems(bool nummernAnzeigen) const {    // Das ganze Inventar ausgeben
     int foundItems = 0;
     for (int i = 0; i < items.size(); ++i) {
         if (items[i].getIsValid()) {
             foundItems++;
 
-            std::cout << "[Inventar-Slot ("<< i+1 << ") ] " << items[i].getName() << " (Wert: " << items[i].getValue() << ") ";
+            std::cout << "["<< (nummernAnzeigen ? std::to_string(i+1)  : "*") << "] " << items[i].getName() << " (Wert: " << items[i].getValue() << ") ";  //
             if (items[i].getType() == 0) {                            // Type // 0 = consumable, 1 = weapon, 2 = armor, 3 = special
                 std::cout << "- Verbrauchsgegenstand";
             }
@@ -63,7 +64,7 @@ int Inventory::listItems() const {    // Das ganze Inventar ausgeben
 void Inventory::sellItem(Character* thisCharacter) {
     std::cout << "Welches Item moechtest du verkaufen?" << std::endl;
     int input_intTemp;
-    if (listItems() == 0) {
+    if (listItems(true) == 0) {
         std::cout << "Dein Rucksack ist leer." << std::endl;
         return;
     }
@@ -87,7 +88,7 @@ void Inventory::useItem(Character* thisCharacter) {
     std::cout << "Welches Item moechtest du verwenden?" << std::endl;
     int input_intTemp;
 
-    if (listItems() == 0) {
+    if (listItems(true) == 0) {
         std::cout << "Dein Rucksack ist leer." << std::endl;
         return;
     }
@@ -105,12 +106,12 @@ void Inventory::useItem(Character* thisCharacter) {
                 break;
             case 1:
                 std::cout << "Du hast die Waffe " << items[input_intTemp - 1].getName() << " ausgeruestet." << std::endl;     //weapon
-                thisCharacter->equipWeapon(items[input_intTemp - 1]);    //TODO! Character! (equipment)
+                thisCharacter->equipWeapon(items[input_intTemp - 1]);
                 removeItem(input_intTemp - 1);
                 break;
             case 2:
                 std::cout << "Du hast den Ruestungsgegenstand " << items[input_intTemp - 1].getName() << " ausgeruestet." << std::endl;     //armor
-                thisCharacter->equipArmor(items[input_intTemp - 1]);    //TODO! Character! (equipment)
+                thisCharacter->equipArmor(items[input_intTemp - 1]);
                 removeItem(input_intTemp - 1);
                 break;
             case 3:
@@ -138,8 +139,8 @@ void Inventory::useItem(Character* thisCharacter) {
 void Inventory::checkBackpack(Character* thisCharacter) {
     std::cout << "Du pruefst deinen Rucksack..." << std::endl;
     hline();
-    int foundItemsInInventar = listItems();
-
+    int foundItemsInInventar = listItems(false);
+    hline();
     if (foundItemsInInventar == 0) {
         std::cout << "Dein Rucksack ist leer." << std::endl;
     } else {
@@ -148,7 +149,7 @@ void Inventory::checkBackpack(Character* thisCharacter) {
         std::cout << "[1] Item verkaufen" << std::endl;
         std::cout << "[2] Item verwenden oder ausruesten" << std::endl;
         std::cout << "[9] Hab genug vom Inventar" << std::endl;
-        std::cout << "Deine Wahl:";
+        std::cout << "Deine Wahl: _";
         std::cin >> input_intemp;
 
         std::cin.ignore();  //ignore the newline in the input buffer

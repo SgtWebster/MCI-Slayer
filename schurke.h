@@ -18,8 +18,9 @@
 class Schurke : public Character {
 public:
     void attack(Hero* hero);   //Schurke greift Helden an
-    void newEmeny(std::string& name, int health, int gold);   //neuer Schurke wird initialisiert
+    void newEmeny(const std::string& name, int health, int gold);   //neuer Schurke wird initialisiert
     void itemDrop(Hero *hero, const Item &defaultItem);
+    void goldDrop(Hero *hero, int gold);
 
 };
 
