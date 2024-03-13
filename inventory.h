@@ -34,15 +34,4 @@ private:
     std::vector<Item> items;
 };
 
-
-// not needed for the moment  (replaced by character attributes)
-//class Equipment : public Inventory {
-//public:
-//    void equipItem(int index);                          // Rüste ein Item aus
-//    void unequipItem(int index);                        // Entferne ein Item aus der Ausrüstung
-//
-//    //TDOO: Erweitere diese Methode, um eine Liste aller ausgerüsteten Items zu erhalten usw
-//};
-
-
 #endif //INVENTORY_H

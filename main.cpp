@@ -13,8 +13,8 @@
 
 #include "GameConfig.h"
 
-#define DEBUG //Debugmodus an
-//#define HARD_DEBUG
+//#define DEBUG //Debugmodus an
+//#define HARD_DEBUG  //Hardcore-Debugmodus an
 
 //using namespace std;
 
@@ -122,13 +122,14 @@ int main() {
 
                 //Begin of the fight-------------------
                 //Initalisieren des Gegners
-                if (enemyCount % 2 == 0) {enemyName = "Matthias"; enemyHealth = 50;} else {enemyName = "Pascal"; enemyHealth = 100; emenyGold = (rand() % 30 + 1);}
+                if (enemyCount % 2 == 0) {enemyName = "Matthias"; enemyHealth = 50; emenyGold = (rand() % 35 + 1);} else {enemyName = "Pascal"; enemyHealth = 100; emenyGold = (rand() % 30 + 1);}    //TODO - Randomizer
 
                 std::cout << "Oh nein! Ein fieser Schurke namens " << enemyName << " erscheint!" << std::endl;
+                hlineAsterix(3);
                 emeny.newEmeny((std::string &) enemyName, enemyHealth, emenyGold);
 
                 if (hero.startFight(&emeny)) {    //FIGHT! FIGHT! FIGHT! bool: false = lost, true = won
-                    std::cout << emeny.getNameChar() << " fiel in Ohnmacht! " << hero.getNameChar() << " hat noch " << hero.getHealth() << " Lebenspunkte uebrig!" << std::endl;    //TODO - Randomizer
+                    std::cout << emeny.getNameChar() << " fiel in Ohnmacht! " << hero.getNameChar() << " hat noch " << hero.getHealth() << " Lebenspunkte uebrig!" << std::endl;
                 } else {
                     std::cout << hero.getNameChar() << " fiel in Ohnmacht!" << std::endl;
                     std::cout << "Du hast leider verloren." << std::endl;
@@ -139,18 +140,16 @@ int main() {
 
 
                 //Item drop
-
+                hlineAsterix(3);
                 if (inventarCount == 0) {
                     emeny.itemDrop(&hero, defaultItems[0]);
                     inventarCount++;
                 } else {
                     emeny.itemDrop(&hero, defaultItems[(rand() % 8 + 1)]);
-                    inventarCount++;}
+                    inventarCount++;
                 }
                 if (emeny.getWeaponIsValid()) {emeny.itemDrop(&hero, emeny.getWeapon()); inventarCount++;}
                 if (emeny.getArmorIsValid()) {emeny.itemDrop(&hero, emeny.getArmor()); inventarCount++;}
-
-                inventarCount++;
 
                 if (inventarCount >= MAX_INVENTORY_SLOTS) {
                     std::cout << "Du hast nun schon so viele Items gefunden und gehst deswegen nach Hause." << std::endl;
@@ -167,102 +166,16 @@ int main() {
                 break;
 
             case 2:                                                             //SHOW INVENTORY-----------------------------------------------------
-//                std::cout << "Du pruefst deinen Rucksack..." << std::endl;
-
                 hero.checkBackpack();
-                hline();
-//
-//                int foundItems;
-//                foundItems = 0;
-//                hline();
-//                for (auto & i : hero.inventory) {       //for each item in the inventory
-//                    if (i.isValid) {
-//                        foundItems++;
-//                        std::cout << "[*] " << i.name << " (Wert: " << i.value << ")" << std::endl;
-//                    }
-//
-//                }
-//                if (foundItems == 0) {
-//                    std::cout << "Dein Inventar ist leer." << std::endl;
-//                } else {
-//                    hline();
-//                    std::cout << "Was moechtest du tun?" << std::endl;
-//                    std::cout << "[1] Item verkaufen" << std::endl;
-//                    std::cout << "[2] Item verwenden oder ausruesten" << std::endl;
-//                    std::cout << "[9] Hab genug vom Inventar" << std::endl;
-//                    std::cout << "Deine Wahl:";
-//                    std::cin >> input_intemp;
-//                    std::cin.ignore();  //ignore the newline in the input buffer
-//                    switch (input_intemp) {
-//                        case 1:
-//                            std::cout << "Welches Item moechtest du verkaufen?" << std::endl;
-//                            hline();
-//                            for (int i = 0; i < 10; i++) {
-//                                if (hero.inventory[i].isValid) {
-//                                    std::cout << "[Inventar-Slot ("<< i+1 << ") ] " << hero.inventory[i].name << " (Wert: " << hero.inventory[i].value << ")" << std::endl;
-//                                }
-//                            }
-//                            hline();
-//                            std::cout << "Slotnummer:";
-//                            std::cin >> input_intemp;
-//                            input_intemp--;
-//                            std::cin.ignore();        //ignore the newline in the input buffer
-//
-//                            hline();
-//                            hero.sellItem(&hero, input_intemp);
-//
-//                            break;
-//                        case 2:
-//                            //{"Schwert", "Schild", "Bogen", "Zaubertrank", "Helm", "Rüstung", "Stiefel", "Ring", "Amulett", "Wischmop der Macht"};
-//                            std::cout << "Welches Item moechtest du verwenden?" << std::endl;
-//                            hline();
-//                            for (int i = 0; i < MAX_INVENTORY_SLOTS; i++) {
-//                                if (hero.inventory[i].isValid) {
-//                                    std::cout << "[Inventar-Slot ("<< i+1 << ") ] " << hero.inventory[i].name << std::endl;
-//                                }
-//                            }
-//                            hline();
-//                            std::cout << "Slotnummer:";
-//                            std::cin >> input_intemp;
-//                            input_intemp--;
-//                            std::cin.ignore();        //ignore the newline in the input buffer
-//
-//                            hline();
-//                            hero.useItem(&hero, input_intemp);
-//
-//                            break;
-//                        case 9:
-//                            break;
-//                        default:
-//                            std::cout << "Ungueltige Eingabe!" << std::endl;
-//                            std::cin.clear();                // Fehlerzustand zurücksetzen
-//                            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Eingabepuffer leeren
-//                            break;
-//                    }
-//
-//                }
-
-                break;                                          //END OF SHOW INVENTORY-----------------------------------------------------
+                //hline();
+                break;
 
             case 3:                                                             //SHOW EQUIPMENT
                 hero.checkEquipment();
-//                std::cout << "Du pruefst deine Ausruestung..." << std::endl;
-//                hline();
-//                if (hero.equipment[0].isValid) {
-//                    std::cout << "[*] Waffe: " << hero.equipment[0].name << " (Angriff: +10)" << std::endl;
-//                } else {
-//                    std::cout << "[*] Waffe: keine (Faeuste)" << std::endl;
-//                }
-//                if (hero.equipment[1].isValid) {
-//                    std::cout << "[*] Ruestung: " << hero.equipment[1].name << " (Abwehr: +10)" << std::endl;
-//                } else {
-//                    std::cout << "[*] Ruestung: keine" << std::endl;
-//                }
-                hline();
+                //hline();
                 break;
 
-
-            case 4:                                                             //EXPLORE DUNGEON
+            case 4:                                                             //EXPLORE DUNGEON   -- //TODO - für Zukunft in eigene Klasse einbauen
                 std::cout << "Du erkundest den Dungeon" << (position > 0 ? " weiter" : "") << "..." << std::endl;
                 position++;
 
@@ -299,9 +212,7 @@ int main() {
 
                     std::cout << "Oh nein! Ein fieser Schurke namens " << enemyName << " erscheint hinter der Statue!" << std::endl;
                     emeny.newEmeny((std::string &) enemyName, enemyHealth, emenyGold);
-//                    initCharacter(&character, &enemyName, enemyHealth, 200);
-
-
+                    hlineAsterix(3);
                     if (hero.startFight(&emeny)) {           //FIGHT! FIGHT! FIGHT! bool: false = lost, true = won
                         std::cout << emeny.getNameChar() << " fiel in Ohnmacht! Ein Wasserkuebel hinter der Statue kippt um. " << hero.getNameChar() << " hat noch " << hero.getHealth() << " Lebenspunkte uebrig!" << std::endl;
                     } else {
@@ -309,11 +220,11 @@ int main() {
                         std::cout << "Du hast leider verloren. Vom Hausmeister geschlagen. Schade." << std::endl;
                         return 0;
                     }
+                    hlineAsterix(3);
                     enemyCount++;
                     //End of the fight-------------------
 
                     //Special Item drop
-//                    itemDrop(&character, &hero, 9, inventarCout);
                     emeny.itemDrop(&hero, defaultItems[9]);
                     inventarCount++;
                     if (inventarCount >= MAX_INVENTORY_SLOTS) {
@@ -342,6 +253,6 @@ int main() {
         //break;
     }
 
-}}
+}
 //END
 #endif

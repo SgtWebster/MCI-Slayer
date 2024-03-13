@@ -5,6 +5,7 @@
 #ifndef GAMECONFIG_H
 #define GAMECONFIG_H
 #include "item.h"
+#include <array>
 
 //max Inventory and Equipment Slots
 constexpr int MAX_INVENTORY_SLOTS = 20;

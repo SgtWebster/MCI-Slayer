@@ -39,11 +39,11 @@ public:
     void setGold(int newGold) { this->gold = newGold; }
 
     //getter for inventory slots
-    std::string getInventoryName(int itemSlot) const { return inventory.getItem(itemSlot)->getName(); }
-    int getInventoryValue(int itemSlot) const { return inventory.getItem(itemSlot)->getValue(); }
-    int getInventoryType(int itemSlot) const { return inventory.getItem(itemSlot)->getType(); }
-    bool getInventoryIsValid(int itemSlot) const { return inventory.getItem(itemSlot)->getIsValid(); }
-    int getInventoryStrengh(int itemSlot) const { return inventory.getItem(itemSlot)->getStrengh(); }
+//    std::string getInventoryName(int itemSlot) const { return inventory.getItem(itemSlot)->getName(); }
+//    int getInventoryValue(int itemSlot) const { return inventory.getItem(itemSlot)->getValue(); }
+//    int getInventoryType(int itemSlot) const { return inventory.getItem(itemSlot)->getType(); }
+//    bool getInventoryIsValid(int itemSlot) const { return inventory.getItem(itemSlot)->getIsValid(); }
+//    int getInventoryStrengh(int itemSlot) const { return inventory.getItem(itemSlot)->getStrengh(); }
 
     //equipment
     void equipWeapon(const Item &item);   //setter for weapon
@@ -82,7 +82,6 @@ private:
     Item armor;
 
 };
-/////////////////////////////////////////////// Schurken-Angelegenheiten
-//class Schurke in eigne .h/.cpp ausgelagert
+
 
 #endif //CHARACTER_H

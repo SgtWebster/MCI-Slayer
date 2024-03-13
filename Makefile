@@ -1,7 +1,7 @@
 all: prototyp2
 
-prototyp2: archive/main.o archive/hero.o archive/character.o archive/item.o
-	g++ -o prototyp2 main.o hero.o character.o item.o gameconfig.o -Werror -Wall
+prototyp2: main.o GameConfig.o character.o item.o inventory.o hero.o schurke.o
+	g++ -o prototyp2 main.o GameConfig.o character.o item.o inventory.o hero.o schurke.o -Werror -Wall
 
 main.o: main.cpp
 	g++ -c -o main.o main.cpp
@@ -15,8 +15,14 @@ character.o: character.cpp
 item.o: item.cpp
 	g++ -c -o item.o item.cpp -Werror
 
-gameconfig.o: gameconfig.cpp
-	g++ -c -o gameconfig.o gameconfig.cpp -Werror
+GameConfig.o: GameConfig.cpp
+	g++ -c -o GameConfig.o GameConfig.cpp -Werror
+
+inventory.o: inventory.cpp
+	g++ -c -o inventory.o inventory.cpp -Werror
+
+schurke.o: schurke.cpp
+	g++ -c -o schurke.o schurke.cpp -Werror
 
 clean:
-	rm -f prototyp2 main.o hero.o character.o item.o
+	rm -f prototyp2 main.o hero.o character.o item.o GameConfig.o inventory.o schurke.o

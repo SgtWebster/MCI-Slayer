@@ -68,10 +68,15 @@ void Inventory::sellItem(Character* thisCharacter) {
         std::cout << "Dein Rucksack ist leer." << std::endl;
         return;
     }
+    std::cout << "[99] Doch nichts verkaufen..." << std::endl; //Abbruch
 
     std::cout << "Slotnummer: _";
     std::cin >> input_intTemp;
     std::cin.ignore();  //ignore the newline in the input buffer
+    if(input_intTemp == 99) {
+        std::cout << "OK..." << std::endl;
+        return;
+    }
     if (isSlotValid(input_intTemp - 1)) {
         std::cout << "Du hast " << items[input_intTemp - 1].getName() << " verkauft." << std::endl;
         std::cout << items[input_intTemp - 1].getValue() << " Goldstuecke erhalten!" << std::endl;
@@ -79,8 +84,8 @@ void Inventory::sellItem(Character* thisCharacter) {
         removeItem(input_intTemp - 1);
     } else {
         std::cout << "Ungueltige Eingabe!" << std::endl;
-        std::cin.clear();                                                   // Fehlerzustand zurücksetzen
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Eingabepuffer leeren
+//        std::cin.clear();                                                   // Fehlerzustand zurücksetzen
+//        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Eingabepuffer leeren
     }
 }
 
@@ -92,11 +97,15 @@ void Inventory::useItem(Character* thisCharacter) {
         std::cout << "Dein Rucksack ist leer." << std::endl;
         return;
     }
+    std::cout << "[99] Doch nichts verwenden..." << std::endl; //Abbruch
     std::cout << "Slotnummer: _";
     std::cin >> input_intTemp;
     std::cin.ignore();  //ignore the newline in the input buffer
+    if(input_intTemp == 99) {
+        std::cout << "OK..." << std::endl;
+        return;
+    }
     if (Inventory::isSlotValid(input_intTemp - 1)) {
-
         switch(items[input_intTemp - 1].getType()) {    // Type // 0 = consumable, 1 = weapon, 2 = armor, 3 = special
             case 0:
                 std::cout << "Du hast " << items[input_intTemp - 1].getName() << " verwendet." << std::endl;    //consumable
@@ -129,8 +138,8 @@ void Inventory::useItem(Character* thisCharacter) {
         }
             } else {
         std::cout << "Ungueltige Eingabe!" << std::endl;
-        std::cin.clear();                                                   // Fehlerzustand zurücksetzen
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Eingabepuffer leeren
+//        std::cin.clear();                                                   // Fehlerzustand zurücksetzen
+//        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Eingabepuffer leeren
     }
     //return;
 
@@ -153,7 +162,7 @@ void Inventory::checkBackpack(Character* thisCharacter) {
         std::cin >> input_intemp;
 
         std::cin.ignore();  //ignore the newline in the input buffer
-
+        hline();
         switch (input_intemp) {
             case 1:
                 sellItem(thisCharacter);

@@ -20,6 +20,9 @@ void Schurke::attack(Hero* hero) {
     if (hero->getArmorIsValid()) {   //...wenn Held eine Rüstung trägt... (wird der Angriff um Sträke-Wert der Rüstung verringert)
         attackPower -= hero->getArmorStrength();
     }
+    if (attackPower < 0) {
+        attackPower = 0;
+    }
 
     std::string weaponName;
     weaponName = "";
@@ -28,17 +31,17 @@ void Schurke::attack(Hero* hero) {
         attackPower += this->getWeaponStrength();
     }
 
-    std::cout << "Der Schurke " << this->getNameChar() << " tifft " << (this->getWeaponIsValid() ? " mit seinem " : "") << weaponName << " " << hero->getNameChar() << " fuer " << attackPower << " Lebenspunkte!" << std::endl;
+    std::cout << "Der Schurke " << this->getNameChar() << " tifft " << (this->getWeaponIsValid() ? " mit seinem " : "") << weaponName << "" << hero->getNameChar() << " fuer " << attackPower << " Lebenspunkte!" << std::endl;
     hero->getDamage(attackPower);
 }
 
 void Schurke::itemDrop(Hero* hero, const Item& defaultItem) {
-    std::cout << "Der Schurke " << this->getNameChar() << " hat ein Item fallen gelassen!" << std::endl;
+    std::cout << "Der Schurke " << this->getNameChar() << " hat Zeugs fallen gelassen!" << std::endl;
 
     // Füge das Item zum Inventar des Helden hinzu
     hero->addItemToInventory(defaultItem);
 
-    std::cout << "Gegenstand " << defaultItem.getName() << " wurde zum Inventar der Heldin hinzugefuegt." << std::endl;
+    std::cout << "Gegenstand " << defaultItem.getName() << " wurde zum Inventar hinzugefuegt." << std::endl;
 }
 
 void Schurke::goldDrop(Hero *hero, int gold) {

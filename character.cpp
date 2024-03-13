@@ -44,7 +44,7 @@ void Character::equipWeapon(const Item &newWeapon) {
 }
 
 void Character::equipArmor(const Item &newArmor) {
-    if (newArmor.getType() == 1) {
+    if (newArmor.getType() == 2) {
 
         if (this->armor.getIsValid()) {   //wenn bereits eine Rüstung ausgerüstet ist, wird diese wieder ins Inventar gelegt
             Item tempItem = Item(this->armor);
@@ -87,5 +87,3 @@ void Character::checkEquipment() {
 void Character::setTheForceTrue() {
     std::cerr << "Die Macht ist nicht stark mit diesem hier!" << std::endl;   //sollte bei Character eigentlich nie vorkommen (daher ungenutzt)
 }
-/////////////////////////////////////////////// Schurken-Angelegenheiten
-//class Schurke in eigne .h/.cpp ausgelagert
