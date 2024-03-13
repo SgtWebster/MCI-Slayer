@@ -4,17 +4,16 @@
 
 #include <iostream>
 #include <string>
-#include "hero.h"
+//#include "hero.h"
 #include "character.h"
 #include "item.h"
 //using namespace std;
 
 
 Character::Character(std::string& name, int health, int gold) : name(name), health(health), gold(gold) {
-
-    for (auto & item : this->inventory) {
-        item = Item((std::string &) "empty", 0, 0, false);     // Direkte Zuweisung zu 'item', nicht 'inventory[i]'
-    }
+    this->inventory = Inventory();
+    this->weapon = Item((std::string &) "empty", 0, 0, false);
+    this->armor = Item((std::string &) "empty", 0, 0, false);
 }
 
 void Character::getDamage(int damage) {    //setter for health
@@ -25,21 +24,51 @@ void Character::earnGold(int goldValue) {   //setter for gold
     this->gold += goldValue;
 }
 
-/////////////////////////////////////////////// Schurken-Angelegenheiten
+void Character::addItemToInventory(const Item& item) {
+    this->inventory.addItem(item);
+}
 
-void Schurke::attack(Hero* hero) {
-    int attackPower = rand() % 11 + 5;
+void Character::equipWeapon(const Item &newWeapon) {
+    if (newWeapon.getType() == 1) {
 
-    if (hero->getEquipmentIsValid(1)) {   //...wenn Held eine Rüstung trägt... (wird der Angriff um 5 verringert)
-        attackPower -= hero->getEquipmentStrengh(1);
+        if (this->weapon.getIsValid()) {   //wenn bereits eine Waffe ausgerüstet ist, wird diese wieder ins Inventar gelegt
+            Item tempItem = Item(this->weapon);
+            this->addItemToInventory(this->weapon);
+            std::cout << "Die Waffe " << tempItem.getName() << " wurde wieder ins Inventar gelegt!" << std::endl;
+        }
+        this->weapon = newWeapon;
+        std::cout << "Die Waffe " << newWeapon.getName() << " wurde ausgeruestet!" << std::endl;
+    } else {
+        std::cerr << "Ungueltiger Waffentyp!" << std::endl;
+        }
+}
+
+void Character::equipArmor(const Item &newArmor) {
+    if (newArmor.getType() == 1) {
+
+        if (this->armor.getIsValid()) {   //wenn bereits eine Rüstung ausgerüstet ist, wird diese wieder ins Inventar gelegt
+            Item tempItem = Item(this->armor);
+            this->addItemToInventory(this->armor);
+            std::cout << "Die Ruestung " << tempItem.getName() << " wurde wieder ins Inventar gelegt!" << std::endl;
+        }
+        this->armor = newArmor;
+        std::cout << "Die Ruestung " << newArmor.getName() << " wurde ausgeruestet!" << std::endl;
+    } else {
+        std::cerr << "Ungueltiger Ruestungstyp!" << std::endl;
     }
-
-    std::cout << "Der Schurke " << Schurke::getName() <<  " tifft " << hero->getName() << " fuer " << attackPower << " Lebenspunkte!" << std::endl;
-    hero->getDamage(attackPower);
+}
+void Character::silentWeaponEquip(const Item &item) {
+    this->weapon = item;
 }
 
-void Schurke::newEmeny(std::string& name, int health, int gold) {
-    this->setName(name);
-    this->setHealth(health);
-    this->setGold(gold);
+void Character::silentArmorEquip(const Item &item) {
+    this->armor = item;
 }
+
+
+
+void setTheForceTrue() {
+    std::cerr << "Die Macht ist nicht stark mit diesem hier!" << std::endl;   //sollte bei Character eigentlich nie vorkommen (daher ungenutzt)
+}
+/////////////////////////////////////////////// Schurken-Angelegenheiten
+//class Schurke in eigne .h/.cpp ausgelagert

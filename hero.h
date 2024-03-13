@@ -7,6 +7,9 @@
 
 #include "item.h"
 #include "character.h"
+#include "GameConfig.h" //max Inventory
+#include "schurke.h"
+
 
 //class Character;      //Forward declaration of Character
 //class Item;           //Forward declaration of Item
@@ -22,22 +25,22 @@ public:
     ~Hero() = default;
 
     void attack(Schurke *enemy);
-    void sellItem(int index);
-    void useItem(int index);
+    //void sellItem(int index);
+    //void useItem(int index);
 
-    void startFight(Schurke *enemy);
+    bool startFight(Schurke *enemy);    //FIGHT-Modus! Läuft so lange bis der Kampf zu ende ist! false = lost, true = won
 
-    //getter for equipment
-    std::string getEquipmentName(int itemIndex) { return equipment[itemIndex].getName(); }
-    int getEquipmentValue(int itemIndex) { return equipment[itemIndex].getValue(); }
-    int getEquipmentType(int itemIndex) { return equipment[itemIndex].getType(); }
-    bool getEquipmentIsValid(int itemIndex) { return equipment[itemIndex].getIsValid(); }
-    int getEquipmentStrengh(int itemIndex) { return equipment[itemIndex].getStrengh(); }
+    //getter for equipment  -- not needed anymore
+    //std::string getEquipmentName(int itemIndex) { return equipment[itemIndex].getName(); }
+    //int getEquipmentValue(int itemIndex) { return equipment[itemIndex].getValue(); }
+    //int getEquipmentType(int itemIndex) { return equipment[itemIndex].getType(); }
+    //bool getEquipmentIsValid(int itemIndex) { return equipment[itemIndex].getIsValid(); }
+    //int getEquipmentStrengh(int itemIndex) { return equipment[itemIndex].getStrengh(); }
 
     //setter/getter for fight
     void setFightStart() { this->fight = true; }
     bool getFightStatus() const { return fight; }
-    void setFightEnd() { this->fightEnd = false; }
+    void setFightEnd() { this->fight = false; }
 
     //getter+setter for theForce
     bool getTheForce() const { return this->theForce; }
@@ -45,7 +48,7 @@ public:
 
 
 private:
-    Item equipment[2];   // equipment[0] = weapon, equipment[1] = armor
+//    Item equipment[MAX_EQUIPMENT_SLOTS];   // equipment[0] = weapon, equipment[1] = armor
     bool fight;
     bool theForce;
 };

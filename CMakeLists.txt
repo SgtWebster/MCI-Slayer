@@ -9,4 +9,10 @@ add_executable(mci-slayer main.cpp
         character.cpp
         character.h
         item.cpp
-        item.h)
+        item.h
+        GameConfig.cpp
+        GameConfig.h
+        inventory.cpp
+        inventory.h
+        schurke.cpp
+        schurke.h)

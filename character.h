@@ -6,7 +6,11 @@
 #define CHARACTER_H
 
 #include "item.h"
-#include "hero.h"
+//#include "hero.h"
+//#include "schurke.h"
+#include "inventory.h"
+#include "GameConfig.h" //max Inventory
+
 
 class Hero;          //Forward declaration of Hero
 
@@ -24,7 +28,7 @@ public:
     void earnGold(int gold);    //setter for gold
 
     //getter
-    std::string getName() const { return name; }
+    std::string getNameChar() const { return name; }
     int getHealth() const { return health; }
     int getGold() const { return gold; }
 
@@ -33,28 +37,49 @@ public:
     void setHealth(int newHealth) { this->health = newHealth; }
     void setGold(int newGold) { this->gold = newGold; }
 
-    //getter for inventory         //TODO Inventory Handling -> siehe ChatGPT -> mittels Container/Vektor
-    std::string getInventoryName(int itemIndex) const { return inventory[itemIndex].getName(); }
-    int getInventoryValue(int itemIndex) const { return inventory[itemIndex].getValue(); }
-    int getInventoryType(int itemIndex) const { return inventory[itemIndex].getType(); }
-    bool getInventoryIsValid(int itemIndex) const { return inventory[itemIndex].getIsValid(); }
-    int getInventoryStrengh(int itemIndex) const { return inventory[itemIndex].getStrengh(); }
+    //getter for inventory slots
+    std::string getInventoryName(int itemSlot) const { return inventory.getItem(itemSlot)->getName(); }
+    int getInventoryValue(int itemSlot) const { return inventory.getItem(itemSlot)->getValue(); }
+    int getInventoryType(int itemSlot) const { return inventory.getItem(itemSlot)->getType(); }
+    bool getInventoryIsValid(int itemSlot) const { return inventory.getItem(itemSlot)->getIsValid(); }
+    int getInventoryStrengh(int itemSlot) const { return inventory.getItem(itemSlot)->getStrengh(); }
+
+    //equipment
+    void equipWeapon(const Item &item);   //setter for weapon
+    void equipArmor(const Item &item);    //setter for armor
+
+    void silentWeaponEquip(const Item &item);   //setter for silentWeapon (use for initial equip)
+    void silentArmorEquip(const Item &item);    //setter for silentArmor (use for initial equip)
+
+    //getter for equipment - Weapon
+    std::string getWeaponName() const { return this->weapon.getName(); }
+    bool getWeaponIsValid() const { return this->weapon.getIsValid(); }
+    int getWeaponStrength() const { return this->weapon.getStrengh(); }
+
+    //getter for equipment - Armor
+    std::string getArmorName() const { return this->armor.getName(); }
+    bool getArmorIsValid() const { return this->armor.getIsValid(); }
+    int getArmorStrength() const { return this->armor.getStrengh(); }
+
+
+    //getter Force
+    void setTheForceTrue(); //setter for theForce
 
     //inventory handling
+    void addItemToInventory(const Item &item);
 
 private:
     std::string name;
     int health;
     int gold;
-    Item inventory[10];
+    Inventory inventory;
+
+    Item weapon;
+    Item armor;
+
 
 };
 /////////////////////////////////////////////// Schurken-Angelegenheiten
-class Schurke : public Character {
-    public:
-    void attack(Hero* hero);   //Schurke greift Helden an
-    void newEmeny(std::string& name, int health, int gold);
-};
-
+//class Schurke in eigne .h/.cpp ausgelagert
 
 #endif //CHARACTER_H

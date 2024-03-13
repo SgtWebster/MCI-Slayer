@@ -1,7 +1,7 @@
 # ninja log v5
 3	867	7315439903374763	CMakeFiles/exercise_1_1.dir/main.cpp.obj	590f0b296dc45de8
 867	1120	7315439905833151	exercise_1_1.exe	ea75e2331581982e
-7	358	7318790749239175	build.ninja	fb232489230cd604
+7	358	7318927439614359	build.ninja	fb232489230cd604
 19	709	7315439901720459	CMakeFiles/exercise_1_1.dir/character.cpp.obj	ca0897f3c831d8b7
 56	805	7315439902770130	CMakeFiles/exercise_1_1.dir/item.cpp.obj	fb924582b7ed5c5e
 38	722	7315439901889014	CMakeFiles/exercise_1_1.dir/hero.cpp.obj	5fdf5d7c8b4c4e22

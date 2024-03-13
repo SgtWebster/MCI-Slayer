@@ -4,44 +4,37 @@
 #include <string>
 #include <limits>
 #include <array>
+
+//#include "character.h"
 #include "hero.h"
+#include "schurke.h"
 #include "item.h"
-#include "character.h"
+
+#include "GameConfig.h"
 //using namespace std;
 
 
 
-void hline() {     //horizontal line (standard)
-    for (int i = 0; i < 70; i++) {
-        std::cout << "-";
-    }
-    std::cout << std::endl;
-}
+//preparations for game-start
 
-void hlineAsterix(int count) {     //horizontal line (with asterix and variable length)
-    for (int i = 0; i < count; i++) {
-        std::cout << "*";
-    }
-    std::cout << std::endl;
-}
+Schurke emeny; //temp character (empty) als Platzhalter
+std::array<Item, COUNT_OF_DEFAULT_ITEMS> items;   // Anzahl der möglichen Items (hat NICHTS mit max_Inventory zu tun!)
+auto defaultItems = createItemList();    //Erstellt Liste der Standard-Items
 
-const int itemCount = 10;
-std::array<Item, itemCount> items;
+//void createItemList() {    //in GameConfig.cpp überstellt
+//    std::string standardItemNames[COUNT_OF_DEFAULT_ITEMS] = {"Schwert", "Dolch", "Bogen", "Heiltrank", "Helm", "Ritterruestung", "Stiefel", "Ring", "Amulett", "Wischmop der Macht"};
+//    int standardItemValues[COUNT_OF_DEFAULT_ITEMS] = {50, 30, 40, 30, 25, 60, 20, 100, 75, 100};
+//    int standardItemTypes[COUNT_OF_DEFAULT_ITEMS] = {1, 1, 1, 0, 2, 2, 2, 2, 2, 3};    //0 = consumable, 1 = weapon, 2 = armor, 3 = special
+//    int standardItemsStrengh[COUNT_OF_DEFAULT_ITEMS] = {10, 5, 8, 10, 10, 25, 5, 10, 15, 100};
+//    for (int i = 0; i < COUNT_OF_DEFAULT_ITEMS; i++) {
+//            items[i] = Item(standardItemNames[i], standardItemValues[i], standardItemTypes[i]), true, standardItemsStrengh[i];
+//    }
+//}
 
-void createItemList() {
-    std::string standardItemNames[itemCount] = {"Schwert", "Dolch", "Bogen", "Zaubertrank", "Helm", "Ritterruestung", "Stiefel", "Ring", "Amulett", "Wischmop der Macht"};
-    int standardItemValues[itemCount] = {50, 30, 40, 30, 25, 60, 20, 100, 75, 100};
-    int standardItemTypes[itemCount] = {1, 1, 1, 0, 2, 2, 2, 2, 2, 3};    //0 = consumable, 1 = weapon, 2 = armor, 3 = special
-    int standardItemsStrengh[itemCount] = {10, 5, 8, 10, 10, 25, 5, 10, 15, 100};
-    for (int i = 0; i < itemCount; i++) {
-            items[i] = Item(standardItemNames[i], standardItemValues[i], standardItemTypes[i]), true, standardItemsStrengh[i];
-    }
-}
 
-Schurke emeny; //temp character (empty)
 
 void itemDrop(Character* character, Hero* hero, int itemIndex, int inventarCout) {
-    std::cout << "Der Schurke " << character->getName() << " hat ein Item fallen gelassen!" << std::endl;
+    std::cout << "Der Schurke " << character->getNameChar() << " hat ein Item fallen gelassen!" << std::endl;
     hero->inventory[inventarCout] = items[itemIndex];    //TODO POINTER
     std::cout << "Gegenstand " << items[itemIndex].name << " wurde zum Inventar der Heldin hinzugefuegt." << std::endl;
 }
@@ -87,8 +80,8 @@ int main() {
         hlineAsterix(hlineLength);
         return 0;
     }
-    hero = Hero(inputemp, 300, 0);
-    //initHero(&hero, &inputemp, 300, 0);
+    hero = Hero(inputemp, DEFAULT_HERO_HEALTH, DEFAULT_HERO_GOLD);
+    //initHero(&hero, &inputemp, std Health 300, std Gold 0);
 
     hline();
     std::cout << "Deine Heldin heisst " << inputemp << "!" << std::endl;
@@ -155,7 +148,7 @@ int main() {
                 //Item drop
                 itemDrop(&character, &hero, (enemyCount == 0 ? 0 : rand() % 8 + 1), inventarCout);
                 inventarCout++;
-                if (inventarCout >= 10) {
+                if (inventarCout >= MAX_INVENTORY_SLOTS) {
                     std::cout << "Du hast nun schon so viele Items gefunden und gehst deswegen deswegen nach Hause." << std::endl;
                     std::cout << "Das Spiel ist somit vorbei." << std::endl;
                     return 0;
@@ -216,7 +209,7 @@ int main() {
                             //{"Schwert", "Schild", "Bogen", "Zaubertrank", "Helm", "Rüstung", "Stiefel", "Ring", "Amulett", "Wischmop der Macht"};
                             std::cout << "Welches Item moechtest du verwenden?" << std::endl;
                             hline();
-                            for (int i = 0; i < 10; i++) {
+                            for (int i = 0; i < MAX_INVENTORY_SLOTS; i++) {
                                 if (hero.inventory[i].isValid) {
                                     std::cout << "[Inventar-Slot ("<< i+1 << ") ] " << hero.inventory[i].name << std::endl;
                                 }
@@ -310,7 +303,7 @@ int main() {
                     //Item drop
                     itemDrop(&character, &hero, 9, inventarCout);
                     inventarCout++;
-                    if (inventarCout >= 10) {
+                    if (inventarCout >= MAX_INVENTORY_SLOTS) {
                         std::cout << "Du hast nun schon so viele Items gefunden und gehst deswegen deswegen nach Hause." << std::endl;
                         std::cout << "Das Spiel ist somit vorbei." << std::endl;
                         return 0;
