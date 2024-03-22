@@ -1,6 +1,6 @@
-all: prototyp2
+all: prototyp3
 
-prototyp2: main.o GameConfig.o character.o item.o inventory.o hero.o schurke.o
+prototyp3: main.o GameConfig.o character.o item.o inventory.o hero.o schurke.o
 	g++ -o prototyp2 main.o GameConfig.o character.o item.o inventory.o hero.o schurke.o -Werror -Wall
 
 main.o: main.cpp

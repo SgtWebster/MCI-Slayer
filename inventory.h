@@ -7,10 +7,12 @@
 
 #include <vector>
 #include <optional>
-#include "item.h"
-//#include "character.h"
+#include "GameConfig.h"
 
-class Character; //Forward declaration of Character
+#include "schurke.h"
+
+
+//class Character; //Forward declaration of Character
 
 class Inventory {
 public:
@@ -29,6 +31,7 @@ public:
     int listItems(bool nummernAnzeigen) const;
     void sellItem(Character* thisCharacter);                                    // Verkaufe ein Item
     void useItem(Character* thisCharacter);                                     // Benutze ein Item
+    void checkItem(Character* thisCharacter);
 
 private:
     std::vector<Item> items;

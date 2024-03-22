@@ -3,9 +3,6 @@
 //
 
 #include "inventory.h"
-#include "GameConfig.h"
-#include "character.h"
-//#include "hero.h"
 #include <limits>
 #include <iostream>
 
@@ -40,19 +37,40 @@ int Inventory::listItems(bool nummernAnzeigen) const {    // Das ganze Inventar 
             foundItems++;
 
             std::cout << "["<< (nummernAnzeigen ? std::to_string(i+1)  : "*") << "] " << items[i].getName() << " (Wert: " << items[i].getValue() << ") ";  //
-            if (items[i].getType() == 0) {                            // Type // 0 = consumable, 1 = weapon, 2 = armor, 3 = special
+            if (items[i].getType() == 0) {                            // Type // 0 = consumable, 1 = weapon, 2 = armor, 3 = accessory, 4 = special, 5 = wischmop
                 std::cout << "- Verbrauchsgegenstand";
             }
             if (items[i].getType() == 1) {
                 std::cout << "- Waffe ";
             } else if (items[i].getType() == 2) {
-                std::cout << "- Ruestung";
+                std::cout << "- Ruestung ";
             }
             if (items[i].getType() == 1 || items[i].getType() == 2) {
                 std::cout << "mit Staerke " << items[i].getStrengh();
+                if (items[i].getMagic() > 0) {
+                    std::cout << " und Magie " << items[i].getMagic();
+                }
             }
             if (items[i].getType() == 3) {
-                std::cout << "- Was ist das? Er scheint irgendwie zu lumineszieren...";
+                std::cout << "- Assessoire ";
+                if (items[i].getStrengh() > 0) {
+                    std::cout << "mit Staerke " << items[i].getStrengh();
+                }
+                if (items[i].getMagic() > 0) {
+                    std::cout << " und Magie " << items[i].getMagic();
+                }
+            }
+            if (items[i].getType() == 4) {
+                std::cout << "- Sondergegenstand ";
+                if (items[i].getStrengh() > 0) {
+                    std::cout << "mit Staerke " << items[i].getStrengh();
+                }
+                if (items[i].getMagic() > 0) {
+                    std::cout << " und Magie " << items[i].getMagic();
+                }
+            }
+            if (items[i].getType() == 5) {
+                std::cout << "- ???";
             }
             std::cout << std::endl;
         }
@@ -89,6 +107,30 @@ void Inventory::sellItem(Character* thisCharacter) {
     }
 }
 
+void Inventory::checkItem(Character *thisCharacter) {
+    std::cout << "Welches Item moechtest du untersuchen?" << std::endl;
+    int input_intTemp;
+    if (listItems(true) == 0) {
+        std::cout << "Dein Rucksack ist leer." << std::endl;
+        return;
+    }
+    std::cout << "[99] Doch nichts untersuchen..." << std::endl; //Abbruch
+
+    std::cout << "Slotnummer: _";
+    std::cin >> input_intTemp;
+    std::cin.ignore();  //ignore the newline in the input buffer
+    if(input_intTemp == 99) {
+        std::cout << "OK..." << std::endl;
+        return;
+    }
+    if (isSlotValid(input_intTemp - 1)) {
+        std::cout << "Du untersuchst " << items[input_intTemp - 1].getName() << "..." << std::endl;
+        std::cout << items[input_intTemp - 1].getDescription() <<std::endl;
+    } else {
+        std::cout << "Ungueltige Eingabe!" << std::endl;
+    }
+}
+
 void Inventory::useItem(Character* thisCharacter) {
     std::cout << "Welches Item moechtest du verwenden?" << std::endl;
     int input_intTemp;
@@ -111,21 +153,34 @@ void Inventory::useItem(Character* thisCharacter) {
                 std::cout << "Du hast " << items[input_intTemp - 1].getName() << " verwendet." << std::endl;    //consumable
                 std::cout << items[input_intTemp - 1].getStrengh() << " Lebenspunkte erhalten!" << std::endl;
                 thisCharacter->getDamage( (items[input_intTemp - 1].getStrengh()) * (-1));
+                if (items[input_intTemp - 1].getMagic() > 0) {
+                    std::cout << items[input_intTemp - 1].getMagic() << " Magieabwehrpunkte erhalten!" << std::endl;
+                    thisCharacter->getMagicalBodyDefenseValue(
+                            thisCharacter->getMagicalBodyDefenseValue() + items[input_intTemp - 1].getMagic());
+                }
                 removeItem(input_intTemp - 1);
                 break;
             case 1:
-                std::cout << "Du hast die Waffe " << items[input_intTemp - 1].getName() << " ausgeruestet." << std::endl;     //weapon
+                //std::cout << "Du hast die Waffe " << items[input_intTemp - 1].getName() << " ausgeruestet." << std::endl;     //weapon
                 thisCharacter->equipWeapon(items[input_intTemp - 1]);
                 removeItem(input_intTemp - 1);
                 break;
             case 2:
-                std::cout << "Du hast den Ruestungsgegenstand " << items[input_intTemp - 1].getName() << " ausgeruestet." << std::endl;     //armor
+                //std::cout << "Du hast den Ruestungsgegenstand " << items[input_intTemp - 1].getName() << " ausgeruestet." << std::endl;     //armor
                 thisCharacter->equipArmor(items[input_intTemp - 1]);
                 removeItem(input_intTemp - 1);
                 break;
             case 3:
+                //std::cout << "Du hast den Gegenstand " << items[input_intTemp - 1].getName() << " ausgeruestet." << std::endl;     //accessory
+                thisCharacter->equipAccessory(items[input_intTemp - 1]);
+                removeItem(input_intTemp - 1);
+                break;
+            case 4:
+                std::cout << "Du weisst leider nicht, was du mit " << items[input_intTemp - 1].getName() << " derzeit anfangen sollst." << std::endl;     //special
+                break;
+            case 5:
                 std::cout << "Du hast " << items[input_intTemp - 1].getName() << " verwendet." << std::endl;
-                std::cout << "Gegenstand " << items[input_intTemp - 1].getName() << " wurde benutzt. " << thisCharacter->getNameChar() << " spuert eine Erschuetterung in der Macht!" << std::endl;   //special
+                std::cout << "Gegenstand " << items[input_intTemp - 1].getName() << " wurde benutzt. " << thisCharacter->getNameChar() << " spuert eine Erschuetterung in der Macht!" << std::endl;   //mop
                 std::cout << "Die Macht ist mit " << thisCharacter->getNameChar() << "!" << std::endl;
                 thisCharacter->setTheForceTrue();
                 removeItem(input_intTemp - 1);
@@ -157,6 +212,7 @@ void Inventory::checkBackpack(Character* thisCharacter) {
         std::cout << "Was moechtest du tun?" << std::endl;
         std::cout << "[1] Item verkaufen" << std::endl;
         std::cout << "[2] Item verwenden oder ausruesten" << std::endl;
+        std::cout << "[3] Item untersuchen" << std::endl;
         std::cout << "[9] Hab genug vom Inventar" << std::endl;
         std::cout << "Deine Wahl: _";
         std::cin >> input_intemp;
@@ -169,6 +225,9 @@ void Inventory::checkBackpack(Character* thisCharacter) {
                 break;
             case 2:
                 useItem(thisCharacter);
+                break;
+            case 3:
+                checkItem(thisCharacter);
                 break;
             case 9:
                 std::cout << "Du hast genug vom Inventar..." << std::endl;
@@ -184,3 +243,5 @@ void Inventory::checkBackpack(Character* thisCharacter) {
 
     }
 }
+
+

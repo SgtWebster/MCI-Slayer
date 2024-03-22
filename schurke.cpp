@@ -3,33 +3,51 @@
 //
 
 #include <iostream>
-//#include "character.h"
-#include "hero.h"
-#include "schurke.h"
-//#include "inventory.h"
 
-void Schurke::newEmeny(const std::string& name, int health, int gold) {
-    setName(const_cast<std::string &>(name));
-    setHealth(health);
-    setGold(gold);
+#include "schurke.h"
+#include "hero.h"
+
+
+
+Schurke::Schurke(const std::string& name, int health, int gold, int armorDefenseValue, int magicalDefenseValue) : Character(name, health, gold, armorDefenseValue, magicalDefenseValue) {   //Parameterkonstruktor für Character //
+//        this->inventory = Inventory();   //wird in Character-Konstruktor initialisiert
+//        this->weapon = Item("empty-constructor", 0, 0, false);
+//        this->armor = Item("empty-constructor", 0, 0, false);
+//        this->accessory = Item("empty-constructor", 0, 0, false);
 }
+
+Schurke::Schurke() : Character("unknown", 0, 0, 0, 0) {
+    // Initialisierungslogik für den Standardkonstruktor
+//    this->weapon = Item("empty-constructor", 0, 0, false);
+//    this->armor = Item("empty-constructor", 0, 0, false);
+//    this->accessory = Item("empty-constructor", 0, 0, false);
+}
+
+//void Schurke::newEmeny(const std::string& name, int health, int gold, int armorDefenseValue, int magicalDefenseValue) {
+//    setName(const_cast<std::string &>(name));
+//    setHealth(health);
+//    setGold(gold);
+//    setPhysicalBodyDefenseValue(armorDefenseValue);
+//    getMagicalBodyDefenseValue(magicalDefenseValue);
+//}
 
 void Schurke::attack(Hero* hero) {
     int attackPower = rand() % 11 + 5;
+    int attackPowerMagic = 0;
 
-    if (hero->getArmorIsValid()) {   //...wenn Held eine Rüstung trägt... (wird der Angriff um Sträke-Wert der Rüstung verringert)
-        attackPower -= hero->getArmorStrength();
-    }
-    if (attackPower < 0) {
-        attackPower = 0;
-    }
 
     std::string weaponName;
     weaponName = "";
-    if (this->getWeaponIsValid()) {
+
+    if (this->getWeaponIsValid()) {   //wenn eine Waffe ausgerüstet ist, wird der Schaden erhöht
         weaponName = this->getWeaponName();
-        attackPower += this->getWeaponStrength();
     }
+    attackPower = attackPower + this->getWeaponStrength() - hero->getPhysicalBodyDefenseValue() - hero->getArmorStrength();   //Schaden wird durch Rüstung des Gegners verringert;
+    attackPowerMagic = attackPowerMagic + this->getWeaponMagic() - hero->getMagicalBodyDefenseValue() - hero->getArmorMagic();   //Schaden wird durch magische Rüstung des Gegners verringert;
+    (attackPower < 0 ? attackPower = 0 : attackPower = attackPower);
+    (attackPowerMagic < 0 ? attackPowerMagic = 0 : attackPowerMagic = attackPowerMagic);
+
+    attackPower = attackPower + attackPowerMagic;
 
     std::cout << "Der Schurke " << this->getNameChar() << " tifft " << (this->getWeaponIsValid() ? " mit seinem " : "") << weaponName << "" << hero->getNameChar() << " fuer " << attackPower << " Lebenspunkte!" << std::endl;
     hero->getDamage(attackPower);

@@ -4,17 +4,24 @@
 
 #include <iostream>
 #include <string>
-//#include "hero.h"
+
 #include "character.h"
-//#include "item.h"
-//using namespace std;
 
 
-Character::Character(const std::string& name, int health, int gold) : name(name), health(health), gold(gold) {
+
+Character::Character(const std::string& name, int health, int gold, int armorDefenseValue, int magicalDefenseValue) : name(name), health(health), gold(gold), armorDefenseValue(armorDefenseValue), magicalDefenseValue(magicalDefenseValue) {   //Parameterkonstruktor für Character //
     this->inventory = Inventory();
-    this->weapon = Item("empty", 0, 0, false);
+    this->weapon = Item("empty-constructor", 0, 0, false);
     this->armor = Item("empty", 0, 0, false);
+    this->accessory = Item("empty", 0, 0, false);
 }
+
+Character::Character() : name("unkown"), health(0), gold(0), armorDefenseValue(0), magicalDefenseValue(0) {
+    this->inventory = Inventory();
+    this->weapon = Item("empty-constructor", 0, 0, false);
+    this->armor = Item("empty-constructor", 0, 0, false);
+    this->accessory = Item("empty-constructor", 0, 0, false);
+}         //Standardkonstruktor
 
 void Character::getDamage(int damage) {    //setter for health
     this->health -= damage;
@@ -57,6 +64,22 @@ void Character::equipArmor(const Item &newArmor) {
         std::cerr << "Ungueltiger Ruestungstyp!" << std::endl;
     }
 }
+
+void Character::equipAccessory(const Item &item) {
+    if (item.getType() == 3) {
+
+        if (this->accessory.getIsValid()) {   //wenn bereits ein Accessoire ausgerüstet ist, wird dieses wieder ins Inventar gelegt
+            Item tempItem = Item(this->accessory);
+            this->addItemToInventory(this->accessory);
+            std::cout << "Das Accessoire " << tempItem.getName() << " wurde wieder ins Inventar gelegt!" << std::endl;
+        }
+        this->accessory = item;
+        std::cout << "Das Accessoire " << item.getName() << " wurde ausgeruestet!" << std::endl;
+    } else {
+        std::cerr << "Ungueltiger Accessoiretyp!" << std::endl;
+    }
+}
+
 void Character::silentWeaponEquip(const Item &item) {
     this->weapon = item;
 }
@@ -65,25 +88,38 @@ void Character::silentArmorEquip(const Item &item) {
     this->armor = item;
 }
 
+void Character::silentAccessoryEquip(const Item &item) {
+    this->accessory = item;
+}
+
 void Character::checkBackpack() {
     this->inventory.checkBackpack(this);
 }
 
 void Character::checkEquipment() {
-    //hline();
+    //Hilfsvariablen für die Ausgabe
+    std::string magicAttackInfo = this->getWeaponMagic() > 0 ? " (Magieangriff: +" + std::to_string(this->getWeaponMagic()) + ")" : "";
+    std::string magicDefenseInfo = this->getArmorMagic() > 0 ? " (Magieabwehr: +" + std::to_string(this->getArmorMagic()) + ")" : "";
+    std::string magicAccessoryInfo = this->getAccessoryMagic() > 0 ? " (Magie: +" + std::to_string(this->getAccessoryMagic()) + ")" : "";
+
     if (this->getWeaponIsValid()) {
-        std::cout << "[*] Waffe: " << this->getWeaponName() << " (Angriff: +"<< this->getWeaponStrength() <<")" << std::endl;
+        std::cout << "[*] Waffe: " << this->getWeaponName() << " (Angriff: +"<< this->getWeaponStrength() <<")" << magicAttackInfo << std::endl;
     } else {
         std::cout << "[*] Waffe: keine (Faeuste)" << std::endl;
     }
     if (this->getArmorIsValid()) {
-        std::cout << "[*] Ruestung: " << this->getArmorName() << " (Abwehr: +"<< this->getArmorStrength() <<")" << std::endl;
+        std::cout << "[*] Ruestung: " << this->getArmorName() << " (Abwehr: +"<< this->getArmorStrength() <<")" << magicDefenseInfo << std::endl;
     } else {
-        std::cout << "[*] Ruestung: keine" << std::endl;
+        std::cout << "[*] Ruestung: keine (weisses T-Shirt)" << std::endl;
+    }
+    if (this->getAccessoryIsValid()) {
+        std::cout << "[*] Accessoire: " << this->getAccessoryName() << " (Staerke: +"<< this->getAccessoryStrength() <<")" << magicAccessoryInfo<< std::endl;
+    } else {
+        std::cout << "[*] Accessoire: keine" << std::endl;
     }
 }
-
 
 void Character::setTheForceTrue() {
     std::cerr << "Die Macht ist nicht stark mit diesem hier!" << std::endl;   //sollte bei Character eigentlich nie vorkommen (daher ungenutzt)
 }
+

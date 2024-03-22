@@ -6,12 +6,8 @@
 #include <limits>
 #include <array>
 
-//#include "character.h"
-#include "hero.h"
-//#include "schurke.h"
-//#include "item.h"
+#include "schurke.h"   //in schurke.h laufen alle fäden bzw includes zusammen
 
-#include "GameConfig.h"
 
 //#define DEBUG //Debugmodus an
 //#define HARD_DEBUG  //Hardcore-Debugmodus an
@@ -33,7 +29,7 @@ int main() {
 
 //START
 int main() {
-//    Hero hero;  //create a "empty" hero
+
     std::string inputemp;    //temp string for text-input
     int hlineLength = 90;
 
@@ -72,7 +68,7 @@ int main() {
     hline();
     std::cout << inputemp << " betritt den MCI-Dungeon..." << std::endl;
 
-    Hero hero(inputemp, DEFAULT_HERO_HEALTH, DEFAULT_HERO_GOLD);        //create a hero with the name from the input
+    Hero hero(inputemp, DEFAULT_HERO_HEALTH, DEFAULT_HERO_GOLD, 0, 0);        //create a hero with the name from the input
 
 #ifdef DEBUG
     std::cerr << "DEBUG-MODUS --- Erstellter Held: " << hero.getNameChar() << " hat " << hero.getHealth() << " Lebenspunkte und " << hero.getGold() << " Gold." << std::endl;
@@ -85,7 +81,7 @@ int main() {
     // enemy temps
     int enemyCount = 0;
 
-    Schurke emeny;                                         //temp character (empty) als Platzhalter
+    Schurke enemy;                                         //temp character (empty) als Platzhalter
     std::string enemyName;  //temp enemy name
     int enemyHealth;        //temp enemy health
     int emenyGold;          //temp enemy gold
@@ -117,7 +113,8 @@ int main() {
         hline();
 
         switch (input_intemp) {
-            case 1:                                                             //FIGHT!
+            case 1:
+                //FIGHT!
                 std::cout << "Du suchst fiese Schurken..." << std::endl;
 
                 //Begin of the fight-------------------
@@ -126,10 +123,16 @@ int main() {
 
                 std::cout << "Oh nein! Ein fieser Schurke namens " << enemyName << " erscheint!" << std::endl;
                 hlineAsterix(3);
-                emeny.newEmeny((std::string &) enemyName, enemyHealth, emenyGold);
 
-                if (hero.startFight(&emeny)) {    //FIGHT! FIGHT! FIGHT! bool: false = lost, true = won
-                    std::cout << emeny.getNameChar() << " fiel in Ohnmacht! " << hero.getNameChar() << " hat noch " << hero.getHealth() << " Lebenspunkte uebrig!" << std::endl;
+                enemy = Schurke(enemyName, enemyHealth, emenyGold);  //new Emeny
+                if (enemyCount == 0) {enemy.silentWeaponEquip(defaultItems[0]);} else {enemy.silentWeaponEquip(defaultItems[(rand() % 4 + 1)]);}
+                if (enemyCount == 0) {enemy.silentArmorEquip(defaultItems[6]);} else {enemy.silentArmorEquip(defaultItems[(rand() % 4 + 7)]);}
+                if (enemyCount != 0) {enemy.silentAccessoryEquip(defaultItems[(rand() % 1 + 12)]);}
+                //enemy.silentWeaponEquip(defaultItems[0]);
+                //enemy.silentWeaponEquip( Item("Holzstock", 1, 1, true, 1, 0, "So ein seltsamer Stock aber auch!"));  //Debug-Gegenstand
+
+                if (hero.startFight(&enemy)) {    //FIGHT! FIGHT! FIGHT! bool: false = lost, true = won
+                    std::cout << enemy.getNameChar() << " fiel in Ohnmacht! " << hero.getNameChar() << " hat noch " << hero.getHealth() << " Lebenspunkte uebrig!" << std::endl;
                 } else {
                     std::cout << hero.getNameChar() << " fiel in Ohnmacht!" << std::endl;
                     std::cout << "Du hast leider verloren." << std::endl;
@@ -141,15 +144,10 @@ int main() {
 
                 //Item drop
                 hlineAsterix(3);
-                if (inventarCount == 0) {
-                    emeny.itemDrop(&hero, defaultItems[0]);
-                    inventarCount++;
-                } else {
-                    emeny.itemDrop(&hero, defaultItems[(rand() % 8 + 1)]);
-                    inventarCount++;
-                }
-                if (emeny.getWeaponIsValid()) {emeny.itemDrop(&hero, emeny.getWeapon()); inventarCount++;}
-                if (emeny.getArmorIsValid()) {emeny.itemDrop(&hero, emeny.getArmor()); inventarCount++;}
+
+                if (enemy.getWeaponIsValid()) {enemy.itemDrop(&hero, enemy.getWeapon()); inventarCount++;}
+                if (enemy.getArmorIsValid()) {enemy.itemDrop(&hero, enemy.getArmor()); inventarCount++;}
+                if (enemy.getAccessoryIsValid()) {enemy.itemDrop(&hero, enemy.getAccessory()); inventarCount++;}
 
                 if (inventarCount >= MAX_INVENTORY_SLOTS) {
                     std::cout << "Du hast nun schon so viele Items gefunden und gehst deswegen nach Hause." << std::endl;
@@ -159,10 +157,9 @@ int main() {
                 //End of item drop
 
                 //Gold drop
-                emeny.goldDrop(&hero, emeny.getGold());
+                enemy.goldDrop(&hero, enemy.getGold());
                 //End of gold drop
-
-                enemyCount++;
+//                enemy.~Schurke(); //delete the enemy
                 break;
 
             case 2:                                                             //SHOW INVENTORY-----------------------------------------------------
@@ -211,13 +208,14 @@ int main() {
                     emenyGold = 1000;
 
                     std::cout << "Oh nein! Ein fieser Schurke namens " << enemyName << " erscheint hinter der Statue!" << std::endl;
-                    emeny.newEmeny((std::string &) enemyName, enemyHealth, emenyGold);
+                    enemy = Schurke(enemyName, enemyHealth, emenyGold);  //new Emeny
+
                     hlineAsterix(3);
-                    if (hero.startFight(&emeny)) {           //FIGHT! FIGHT! FIGHT! bool: false = lost, true = won
-                        std::cout << emeny.getNameChar() << " fiel in Ohnmacht! Ein Wasserkuebel hinter der Statue kippt um. " << hero.getNameChar() << " hat noch " << hero.getHealth() << " Lebenspunkte uebrig!" << std::endl;
+                    if (hero.startFight(&enemy)) {           //FIGHT! FIGHT! FIGHT! bool: false = lost, true = won
+                        std::cout << enemy.getNameChar() << " fiel in Ohnmacht! Ein Wasserkuebel hinter der Statue kippt um. " << hero.getNameChar() << " hat noch " << hero.getHealth() << " Lebenspunkte uebrig!" << std::endl;
                     } else {
                         std::cout << hero.getNameChar() << " fiel in Ohnmacht!" << std::endl;
-                        std::cout << "Du hast leider verloren. Vom Hausmeister geschlagen. Schade." << std::endl;
+                        std::cout << "Du hast leider verloren. Vom " << enemy.getNameChar() << " geschlagen. Schade." << std::endl;
                         return 0;
                     }
                     hlineAsterix(3);
@@ -225,7 +223,7 @@ int main() {
                     //End of the fight-------------------
 
                     //Special Item drop
-                    emeny.itemDrop(&hero, defaultItems[9]);
+                    enemy.itemDrop(&hero, defaultItems[COUNT_OF_DEFAULT_ITEMS-1]);
                     inventarCount++;
                     if (inventarCount >= MAX_INVENTORY_SLOTS) {
                         std::cout << "Du hast nun schon so viele Items gefunden... Sogar den ollen Mop! Nun gehst du endlich nach Hause." << std::endl;
@@ -235,14 +233,17 @@ int main() {
                     //End of special item drop
 
                     //Gold drop
-                    emeny.goldDrop(&hero, emeny.getGold());
+                    enemy.goldDrop(&hero, enemy.getGold());
                     //End of gold drop
-
+                    //enemy.~Schurke(); //delete the enemy
                     position++;
-                    enemyCount++;
+
                     break;
 
-                } else {continue;}
+                } else {
+                    std::cout << "Ungueltige Eingabe!" << std::endl;
+                    break;
+                }
             default:                                                            //INVALID INPUT
                 std::cout << "Ungueltige Eingabe!" << std::endl;
                 std::cin.clear();                // Fehlerzustand zurücksetzen

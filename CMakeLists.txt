@@ -15,4 +15,8 @@ add_executable(mci-slayer main.cpp
         inventory.cpp
         inventory.h
         schurke.cpp
-        schurke.h)
+        schurke.h
+        fighter.cpp
+        fighter.h
+        sorcerer.cpp
+        sorcerer.h)
