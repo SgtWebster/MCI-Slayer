@@ -5,7 +5,6 @@
 #ifndef GAMECONFIG_H
 #define GAMECONFIG_H
 #include "item.h"
-//#include "schurke.h"
 #include <array>
 
 //max Inventory and Equipment Slots
@@ -17,7 +16,7 @@ constexpr int DEFAULT_HERO_HEALTH = 300;
 constexpr int DEFAULT_HERO_GOLD = 0;
 
 //weitere Defaults
-constexpr int COUNT_OF_DEFAULT_ENEMYS = 10;
+constexpr int COUNT_OF_DEFAULT_ENEMYS = 5;  // wenn 5 dann -> 5 Fighter und 5 Sorcerer
 
 
 //linien
