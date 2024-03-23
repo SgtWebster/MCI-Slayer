@@ -8,12 +8,18 @@
 #include "schurke.h"
 
 class Sorcerer : public Schurke {
-    Sorcerer(const std::string &name, int value, int type, bool isValid, int armorDefenseValue, int magicalDefenseValue,
-            int magicalStrength =0);
+public:
+    Sorcerer(const std::string& name, int health, int gold, int armorDefenseValue, int magicalDefenseValue, int magicalStrenght) :
+            Schurke(name, health, gold, armorDefenseValue,magicalDefenseValue), magicalStrenght(magicalStrenght) {}   //Parameterkonstruktor
+
+    Sorcerer() : Schurke("", 0, 0, 0, 0), magicalStrenght(0) {}  //Standardkonstruktor
 
     //getter
-    static int requestPhysicalStrength() {return 0;}
-    int requestMagicalPower() const {return magicalStrenght;}
+    int requestPhysicalStrength() const override {return 0;}
+    int requestMagicalPower() const override {return magicalStrenght;}
+
+    static std::array<Sorcerer, COUNT_OF_DEFAULT_ENEMYS> createSorcererList();
+
 
 private:
     int magicalStrenght;

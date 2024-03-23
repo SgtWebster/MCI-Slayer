@@ -35,6 +35,8 @@ public:
     void useItem(Character* thisCharacter);                                     // Benutze ein Item
     void checkItem(Character* thisCharacter);
 
+
+
 private:
     std::vector<Item> items;
 };

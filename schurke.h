@@ -24,6 +24,10 @@ public:
     void itemDrop(Hero *hero, const Item &defaultItem);
     void goldDrop(Hero *hero, int gold);
 
+    virtual int requestPhysicalStrength() const {return 0;}
+
+    virtual int requestMagicalPower() const {return 0;}
+
 };
 
 

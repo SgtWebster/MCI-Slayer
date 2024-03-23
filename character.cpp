@@ -23,6 +23,18 @@ Character::Character() : name("unkown"), health(0), gold(0), armorDefenseValue(0
     this->accessory = Item("empty-constructor", 0, 0, false);
 }         //Standardkonstruktor
 
+Character::Character(const Character &character) {
+this->name = character.name;
+    this->health = character.health;
+    this->gold = character.gold;
+    this->armorDefenseValue = character.armorDefenseValue;
+    this->magicalDefenseValue = character.magicalDefenseValue;
+    this->inventory = Inventory(character.inventory);
+    this->weapon = Item(character.weapon);
+    this->armor = Item(character.armor);
+    this->accessory = Item(character.accessory);
+}  //Copy-Konstruktor (für deep copy von Inventory
+
 void Character::getDamage(int damage) {    //setter for health
     this->health -= damage;
 }
@@ -92,11 +104,24 @@ void Character::silentAccessoryEquip(const Item &item) {
     this->accessory = item;
 }
 
+void Character::silentSpecialEquip(const Item &item) {
+    this->special = item;
+}
+
+
+bool Character::isSomethingInInventory() const {
+    return this->inventory.isSlotValid(0);
+}
+
+Item Character::getItemFromInventory(int slot) const {
+    return *this->inventory.getItem(slot);
+}
+
 void Character::checkBackpack() {
     this->inventory.checkBackpack(this);
 }
 
-void Character::checkEquipment() {
+void Character::checkEquipment() const {
     //Hilfsvariablen für die Ausgabe
     std::string magicAttackInfo = this->getWeaponMagic() > 0 ? " (Magieangriff: +" + std::to_string(this->getWeaponMagic()) + ")" : "";
     std::string magicDefenseInfo = this->getArmorMagic() > 0 ? " (Magieabwehr: +" + std::to_string(this->getArmorMagic()) + ")" : "";
@@ -122,4 +147,8 @@ void Character::checkEquipment() {
 void Character::setTheForceTrue() {
     std::cerr << "Die Macht ist nicht stark mit diesem hier!" << std::endl;   //sollte bei Character eigentlich nie vorkommen (daher ungenutzt)
 }
+
+
+
+
 

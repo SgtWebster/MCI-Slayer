@@ -9,12 +9,16 @@
 
 class Fighter : public Schurke {
 public:
-    Fighter(const std::string &name, int value, int type, bool isValid, int armorDefenseValue, int magicalDefenseValue,
-            int physicalStrength =0);
+    Fighter(const std::string& name, int health, int gold, int armorDefenseValue, int magicalDefenseValue, int physicalStrength) :
+            Schurke(name, health, gold, armorDefenseValue,magicalDefenseValue), physicalStrength(physicalStrength) {}   //Parameterkonstruktor
+
+    Fighter() : Schurke("", 0, 0, 0, 0), physicalStrength(0) {}        //Standardkonstruktor
 
     //getter
-    int requestPhysicalStrength() const {return physicalStrength;}
-    static int requestMagicalPower() {return 0;}
+    int requestPhysicalStrength() const override {return physicalStrength;}
+    int requestMagicalPower() const override {return 0;}
+
+    static std::array<Fighter, COUNT_OF_DEFAULT_ENEMYS> createFighterList();
 
 private:
     int physicalStrength;
@@ -22,3 +26,4 @@ private:
 
 
 #endif //FIGHTER_H
+

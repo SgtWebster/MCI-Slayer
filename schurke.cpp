@@ -32,9 +32,8 @@ Schurke::Schurke() : Character("unknown", 0, 0, 0, 0) {
 //}
 
 void Schurke::attack(Hero* hero) {
-    int attackPower = rand() % 11 + 5;
+    int attackPower = getRandomNumber(5,15);            //rand() % 11 + 5;
     int attackPowerMagic = 0;
-
 
     std::string weaponName;
     weaponName = "";
@@ -42,20 +41,24 @@ void Schurke::attack(Hero* hero) {
     if (this->getWeaponIsValid()) {   //wenn eine Waffe ausgerüstet ist, wird der Schaden erhöht
         weaponName = this->getWeaponName();
     }
-    attackPower = attackPower + this->getWeaponStrength() - hero->getPhysicalBodyDefenseValue() - hero->getArmorStrength();   //Schaden wird durch Rüstung des Gegners verringert;
-    attackPowerMagic = attackPowerMagic + this->getWeaponMagic() - hero->getMagicalBodyDefenseValue() - hero->getArmorMagic();   //Schaden wird durch magische Rüstung des Gegners verringert;
+    attackPower = attackPower + this->requestPhysicalStrength() + this->getWeaponStrength() - hero->getPhysicalBodyDefenseValue() - hero->getArmorStrength();   //Schaden wird durch Rüstung des Gegners verringert;
+    attackPowerMagic = attackPowerMagic + this->requestMagicalPower() + this->getWeaponMagic() - hero->getMagicalBodyDefenseValue() - hero->getArmorMagic() - hero->getAccessoryMagic();   //Schaden wird durch magische Rüstung des Gegners verringert;
     (attackPower < 0 ? attackPower = 0 : attackPower = attackPower);
     (attackPowerMagic < 0 ? attackPowerMagic = 0 : attackPowerMagic = attackPowerMagic);
 
     attackPower = attackPower + attackPowerMagic;
 
-    std::cout << "Der Schurke " << this->getNameChar() << " tifft " << (this->getWeaponIsValid() ? " mit seinem " : "") << weaponName << "" << hero->getNameChar() << " fuer " << attackPower << " Lebenspunkte!" << std::endl;
+    std::cout << "Der Schurke " << this->getNameChar() << " tifft" << (this->getWeaponIsValid() ? " mit seinem " : "") << weaponName << " " << hero->getNameChar() << " fuer " << attackPower << " Lebenspunkte!" << std::endl;
     hero->getDamage(attackPower);
+    if (attackPower == 0) {
+        std::cout << "(*) Die Heldin " << hero->getNameChar() << " hat den Angriff abgewehrt! Hurra!" << std::endl;
+        hero->dodgecry();
+    }
 }
 
 void Schurke::itemDrop(Hero* hero, const Item& defaultItem) {
-    std::cout << "Der Schurke " << this->getNameChar() << " hat Zeugs fallen gelassen!" << std::endl;
-
+    std::cout << "(*) Der Schurke " << this->getNameChar() << " hat etwas fallen gelassen! ";
+    //Text in main() eingebaut
     // Füge das Item zum Inventar des Helden hinzu
     hero->addItemToInventory(defaultItem);
 
@@ -63,7 +66,7 @@ void Schurke::itemDrop(Hero* hero, const Item& defaultItem) {
 }
 
 void Schurke::goldDrop(Hero *hero, int gold) {
-    std::cout << "Der Schurke " << this->getNameChar() << " hat " << gold << " Gold fallen gelassen!" << std::endl;
+    std::cout << "(*) Der Schurke " << this->getNameChar() << " hat " << gold << " Gold fallen gelassen! ";
 
     // Füge das Gold zum Inventar des Helden hinzu
     hero->earnGold(gold);

@@ -11,10 +11,26 @@
 //class Inventory;     //Forward declaration of Inventory
 
 class Character {    //eltern class for Character, Hero, Schurken...
+protected:
+    std::string name;
+    int health;
+    int gold;
+    Inventory inventory;
+
+    Item weapon;
+    Item armor;
+    Item accessory;
+    Item special;
+
+    //new with ÜZ3:
+    int armorDefenseValue;
+    int magicalDefenseValue;
+
 public:
     //Konstruktor
     Character(const std::string& name, int health, int gold, int armorDefenseValue = 0, int magicalDefenseValue = 0);    //Parameterkonstruktor
     Character();         //Standardkonstruktor
+    Character(const Character &character); //Copy-Konstruktor (für deep copy von Inventory
 
     //Destruktor
     ~Character() = default;
@@ -41,6 +57,7 @@ public:
     void silentWeaponEquip(const Item &item);   //setter for silentWeapon (use for initial equip)
     void silentArmorEquip(const Item &item);    //setter for silentArmor (use for initial equip)
     void silentAccessoryEquip(const Item &item);    //setter for silentAccessory (use for initial equip)
+    void silentSpecialEquip(const Item &item);    //setter for silentSpecial (use for initial equip)
 
     //getter for equipment - Weapon
     std::string getWeaponName() const { return this->weapon.getName(); }
@@ -63,13 +80,20 @@ public:
     int getAccessoryMagic() const { return this->accessory.getMagic(); }
     Item getAccessory() const { return this->accessory; }
 
+    //getter for equipment - Special
+    std::string getSpecialName() const { return this->special.getName(); }
+    bool getSpecialIsValid() const { return this->special.getIsValid(); }
+    int getSpecialStrength() const { return this->special.getStrengh(); }
+    int getSpecialMagic() const { return this->special.getMagic(); }
+    Item getSpecial() const { return this->special; }
+
     //getter Force
     virtual void setTheForceTrue(); //setter for theForce
 
     //inventory handling
     void addItemToInventory(const Item &item);
     void checkBackpack();
-    void checkEquipment();
+    void checkEquipment() const;
 
     //new with ÜZ3:
     int getPhysicalBodyDefenseValue() const { return armorDefenseValue; }
@@ -77,19 +101,10 @@ public:
     void setPhysicalBodyDefenseValue(int newArmorDefenseValue) { this->armorDefenseValue = newArmorDefenseValue; }
     void setMagicalBodyDefenseValue(int newMagicalDefenseValue) { this->magicalDefenseValue = newMagicalDefenseValue; }
 
-protected:
-    std::string name;
-    int health;
-    int gold;
-    Inventory inventory;
+    bool isSomethingInInventory() const;   //checken, ob das Inventar leer ist (true -> da is was da!)
+    Item getItemFromInventory(int slot) const;   //Item aus dem Inventar holen
 
-    Item weapon;
-    Item armor;
-    Item accessory;
 
-    //new with ÜZ3:
-    int armorDefenseValue;
-    int magicalDefenseValue;
 
 };
 

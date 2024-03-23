@@ -6,6 +6,7 @@
 #define GAMECONFIG_H
 #include "item.h"
 #include <array>
+#include <random>
 
 //max Inventory and Equipment Slots
 constexpr int MAX_INVENTORY_SLOTS = 20;
@@ -26,8 +27,9 @@ void hlineAsterix(int count);      //horizontal line (with asterix and variable 
 //config default items
 std::array<Item, COUNT_OF_DEFAULT_ITEMS> createItemList();
 
-//config default Emenys
-//std::array<Schurke, COUNT_OF_DEFAULT_ENEMYS> createEnemyList();  //TODO: implement
+
+//Random Number Generator
+int getRandomNumber(int min, int max);
 
 
 #endif //GAMECONFIG_H
