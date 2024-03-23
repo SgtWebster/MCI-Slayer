@@ -7,12 +7,14 @@
 
 #include <vector>
 #include <optional>
+
 #include "GameConfig.h"
 
-#include "schurke.h"
 
 
-//class Character; //Forward declaration of Character
+class Character; //Forward declaration of Character
+class Hero; //Forward declaration of Hero
+class Schurke; //Forward declaration of Schurke
 
 class Inventory {
 public:

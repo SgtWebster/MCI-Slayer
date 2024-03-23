@@ -10,7 +10,7 @@
 //#include "schurke.h"
 
 
-//class Schurke;         //Forward declaration of Schurke
+class Schurke;         //Forward declaration of Schurke
 
 
 class Hero : public Character {           //class for hero - inherits from Character

@@ -7,7 +7,7 @@
 #include <array>
 
 #include "schurke.h"   //in schurke.h laufen alle fäden bzw includes zusammen
-
+#include "hero.h"
 
 //#define DEBUG //Debugmodus an
 //#define HARD_DEBUG  //Hardcore-Debugmodus an

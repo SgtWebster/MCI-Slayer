@@ -1,10 +1,15 @@
-//
+// inventory.cpp
 // Created by webo on 11.03.2024.
 //
 
-#include "inventory.h"
+
 #include <limits>
 #include <iostream>
+
+#include "inventory.h"
+#include "hero.h"
+#include "schurke.h"
+
 
 void Inventory::addItem(const Item& item) {     // Füge das Item hinzu, wenn das Limit noch nicht erreicht ist
     if (items.size() < MAX_INVENTORY_SLOTS) {
@@ -155,8 +160,7 @@ void Inventory::useItem(Character* thisCharacter) {
                 thisCharacter->getDamage( (items[input_intTemp - 1].getStrengh()) * (-1));
                 if (items[input_intTemp - 1].getMagic() > 0) {
                     std::cout << items[input_intTemp - 1].getMagic() << " Magieabwehrpunkte erhalten!" << std::endl;
-                    thisCharacter->getMagicalBodyDefenseValue(
-                            thisCharacter->getMagicalBodyDefenseValue() + items[input_intTemp - 1].getMagic());
+                    thisCharacter->setMagicalBodyDefenseValue( thisCharacter->getMagicalBodyDefenseValue() + items[input_intTemp - 1].getMagic());
                 }
                 removeItem(input_intTemp - 1);
                 break;
