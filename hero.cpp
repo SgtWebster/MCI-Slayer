@@ -7,7 +7,7 @@
 //#include <cstdlib>   // for rand() -> durch random abgelöst (GameConfig)
 
 #include "hero.h"
-#include "schurke.h"
+#include "npc.h"
 
 
 Hero::Hero(const std::string& name, int health, int gold, int armorDefenseValue, int magicalDefenseValue) : Character(name, health, gold, armorDefenseValue, magicalDefenseValue) {    //Parameterkonstruktor für Hero

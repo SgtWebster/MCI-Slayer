@@ -85,8 +85,8 @@ build CMakeFiles/mci-slayer.dir/inventory.cpp.obj: CXX_COMPILER__mci-slayer_unsc
   OBJECT_DIR = CMakeFiles\mci-slayer.dir
   OBJECT_FILE_DIR = CMakeFiles\mci-slayer.dir
 
-build CMakeFiles/mci-slayer.dir/schurke.cpp.obj: CXX_COMPILER__mci-slayer_unscanned_Debug C$:/MCI/Assignments/Semester$ 2/MdSE2/CLion/mci_slayer/schurke.cpp || cmake_object_order_depends_target_mci-slayer
-  DEP_FILE = CMakeFiles\mci-slayer.dir\schurke.cpp.obj.d
+build CMakeFiles/mci-slayer.dir/npc.cpp.obj: CXX_COMPILER__mci-slayer_unscanned_Debug C$:/MCI/Assignments/Semester$ 2/MdSE2/CLion/mci_slayer/npc.cpp || cmake_object_order_depends_target_mci-slayer
+  DEP_FILE = CMakeFiles\mci-slayer.dir\npc.cpp.obj.d
   FLAGS = -g -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\mci-slayer.dir
   OBJECT_FILE_DIR = CMakeFiles\mci-slayer.dir
@@ -103,6 +103,18 @@ build CMakeFiles/mci-slayer.dir/sorcerer.cpp.obj: CXX_COMPILER__mci-slayer_unsca
   OBJECT_DIR = CMakeFiles\mci-slayer.dir
   OBJECT_FILE_DIR = CMakeFiles\mci-slayer.dir
 
+build CMakeFiles/mci-slayer.dir/room.cpp.obj: CXX_COMPILER__mci-slayer_unscanned_Debug C$:/MCI/Assignments/Semester$ 2/MdSE2/CLion/mci_slayer/room.cpp || cmake_object_order_depends_target_mci-slayer
+  DEP_FILE = CMakeFiles\mci-slayer.dir\room.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\mci-slayer.dir
+  OBJECT_FILE_DIR = CMakeFiles\mci-slayer.dir
+
+build CMakeFiles/mci-slayer.dir/world.cpp.obj: CXX_COMPILER__mci-slayer_unscanned_Debug C$:/MCI/Assignments/Semester$ 2/MdSE2/CLion/mci_slayer/world.cpp || cmake_object_order_depends_target_mci-slayer
+  DEP_FILE = CMakeFiles\mci-slayer.dir\world.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\mci-slayer.dir
+  OBJECT_FILE_DIR = CMakeFiles\mci-slayer.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target mci-slayer
@@ -111,7 +123,7 @@ build CMakeFiles/mci-slayer.dir/sorcerer.cpp.obj: CXX_COMPILER__mci-slayer_unsca
 #############################################
 # Link the executable mci-slayer.exe
 
-build mci-slayer.exe: CXX_EXECUTABLE_LINKER__mci-slayer_Debug CMakeFiles/mci-slayer.dir/main.cpp.obj CMakeFiles/mci-slayer.dir/hero.cpp.obj CMakeFiles/mci-slayer.dir/character.cpp.obj CMakeFiles/mci-slayer.dir/item.cpp.obj CMakeFiles/mci-slayer.dir/GameConfig.cpp.obj CMakeFiles/mci-slayer.dir/inventory.cpp.obj CMakeFiles/mci-slayer.dir/schurke.cpp.obj CMakeFiles/mci-slayer.dir/fighter.cpp.obj CMakeFiles/mci-slayer.dir/sorcerer.cpp.obj
+build mci-slayer.exe: CXX_EXECUTABLE_LINKER__mci-slayer_Debug CMakeFiles/mci-slayer.dir/main.cpp.obj CMakeFiles/mci-slayer.dir/hero.cpp.obj CMakeFiles/mci-slayer.dir/character.cpp.obj CMakeFiles/mci-slayer.dir/item.cpp.obj CMakeFiles/mci-slayer.dir/GameConfig.cpp.obj CMakeFiles/mci-slayer.dir/inventory.cpp.obj CMakeFiles/mci-slayer.dir/npc.cpp.obj CMakeFiles/mci-slayer.dir/fighter.cpp.obj CMakeFiles/mci-slayer.dir/sorcerer.cpp.obj CMakeFiles/mci-slayer.dir/room.cpp.obj CMakeFiles/mci-slayer.dir/world.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\mci-slayer.dir

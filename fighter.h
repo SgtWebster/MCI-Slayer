@@ -5,7 +5,7 @@
 #ifndef FIGHTER_H
 #define FIGHTER_H
 
-#include "schurke.h"
+#include "npc.h"
 
 class Fighter : public Schurke {
 public:

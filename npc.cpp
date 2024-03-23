@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-#include "schurke.h"
+#include "npc.h"
 #include "hero.h"
 
 

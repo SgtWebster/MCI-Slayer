@@ -14,9 +14,13 @@ add_executable(mci-slayer main.cpp
         GameConfig.h
         inventory.cpp
         inventory.h
-        schurke.cpp
-        schurke.h
+        npc.cpp
+        npc.h
         fighter.cpp
         fighter.h
         sorcerer.cpp
-        sorcerer.h)
+        sorcerer.h
+        room.cpp
+        room.h
+        world.cpp
+        world.h)

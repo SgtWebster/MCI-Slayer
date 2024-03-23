@@ -6,13 +6,13 @@
 #include <limits>
 #include <array>
 
-#include "schurke.h"   //in schurke.h laufen alle fäden bzw includes zusammen
+#include "npc.h"   //in schurke.h laufen alle fäden bzw includes zusammen
 #include "hero.h"
 
 #include "fighter.h"   //TODO - Struktur noch verbessern?
 #include "sorcerer.h"   //""
 
-#define DECONSTRUCT hero.~Hero(); enemy.~Schurke(); fighter.~Fighter(); sorcerer.~Sorcerer();
+#define DECONSTRUCT // hero.~Hero(); enemy.~Schurke(); fighter.~Fighter(); sorcerer.~Sorcerer();  //TODO - fuer Abgabe wichtig?
 
 //#define DEBUG       //Debugmodus an
 //#define HARD_DEBUG  //Hardcore-Debugmodus an  (hab ich gebraucht, als ich letztesmal alles zerschossen hab)

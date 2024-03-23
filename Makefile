@@ -1,7 +1,7 @@
 all: prototyp3
 
-prototyp3: main.o GameConfig.o character.o item.o inventory.o hero.o schurke.o fighter.o sorcerer.o
-	g++ -o prototyp2 main.o GameConfig.o character.o item.o inventory.o hero.o schurke.o  fighter.o sorcerer.o -Werror -Wall
+prototyp3: main.o GameConfig.o character.o item.o inventory.o hero.o npc.o fighter.o sorcerer.o
+	g++ -o prototyp3 main.o GameConfig.o character.o item.o inventory.o hero.o npc.o fighter.o sorcerer.o -Werror -Wall
 
 main.o: main.cpp
 	g++ -c -o main.o main.cpp
@@ -21,8 +21,8 @@ GameConfig.o: GameConfig.cpp
 inventory.o: inventory.cpp
 	g++ -c -o inventory.o inventory.cpp -Werror
 
-schurke.o: schurke.cpp
-	g++ -c -o schurke.o schurke.cpp -Werror
+schurke.o: npc.cpp
+	g++ -c -o npc.o npc.cpp -Werror
 
 fighter.o: fighter.cpp
 	g++ -c -o fighter.o fighter.cpp -Werror
@@ -31,4 +31,4 @@ sorcerer.o: sorcerer.cpp
 	g++ -c -o sorcerer.o sorcerer.cpp -Werror
 
 clean:
-	rm -f prototyp2 main.o hero.o character.o item.o GameConfig.o inventory.o schurke.o fighter.o sorcerer.o
+	rm -f prototyp3 main.o hero.o character.o item.o GameConfig.o inventory.o npc.o fighter.o sorcerer.o

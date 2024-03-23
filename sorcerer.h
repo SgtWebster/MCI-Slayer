@@ -5,7 +5,7 @@
 #ifndef SORCERER_H
 #define SORCERER_H
 
-#include "schurke.h"
+#include "npc.h"
 
 class Sorcerer : public Schurke {
 public:
