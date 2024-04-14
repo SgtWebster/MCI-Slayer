@@ -12,6 +12,8 @@
 #include "fighter.h"   //TODO - Struktur noch verbessern?
 #include "sorcerer.h"   //""
 
+#include "world.h"   //TODO - später via room implementieren
+
 #define DECONSTRUCT // hero.~Hero(); enemy.~Schurke(); fighter.~Fighter(); sorcerer.~Sorcerer();  //TODO - fuer Abgabe wichtig?
 
 //#define DEBUG       //Debugmodus an
@@ -82,7 +84,7 @@ int main() {
     std::cerr << "DEBUG-MODUS --- Erstellter Held: " << hero.getNameChar() << " hat " << hero.getHealth() << " Lebenspunkte und " << hero.getGold() << " Gold." << std::endl;
 #endif
 
-    //Basic Setup
+    //----------------------BASIC SETUP-----------------------------
     int position = 0;  //Position im Dungeon
     int inventarCount = 0;
 
@@ -94,12 +96,14 @@ int main() {
 
     Schurke enemy;                                         //temp - default enemy
     std::string enemyName;  //temp enemy name
-    //int enemyHealth;        //temp enemy health
-    //int emenyGold;          //temp enemy gold
 
     Fighter fighter;        //temp fighter
     Sorcerer sorcerer;      //temp sorcerer
-    std::string schurkenText;   //für Kampftext
+    std::string schurkenText;   //für Beschreibung des Schurken im Kampfdialog
+
+    //World map;
+    World world(MAX_MAP_X, MAX_MAP_Y); //world initialisieren
+    //auto map = World::createEmptyMap(MAX_MAP_X,MAX_MAP_Y);   //TODO - später via room implementieren
 
     auto defaultFighterList = Fighter::createFighterList();    //Erstellt Liste der Standard-Fighter (ohne ausgerüstete Gegenstände)
     auto defaultSocererList = Sorcerer::createSorcererList();    //Erstellt Liste der Standard-Sorcerer (ohne ausgerüstete Gegenstände)
@@ -129,6 +133,8 @@ int main() {
         std::cout << "[4] Erkunde den Dungeon" << (position == 0 ? "" : " weiter") << std::endl;
         if(position==5) {
             std::cout << "[5] Untersuche die Statue" << std::endl;
+        } else {
+            std::cout << "[5] Schaue auf die Karte (BETA FUNKTION, du Gsicht!)" << std::endl;
         }
         std::cout << "[9] Dungeon verlassen" << std::endl;
         std::cout << "Deine Wahl: _";
@@ -149,7 +155,7 @@ int main() {
                 //Kampszenarios -> 1) Erster Kampf (initalKampf 2) Kampf gegen Fighter 3) Kampf gegen Sorcerer
 
                 switch (fightScenario) {
-                    case 0: //Erster Kampf
+                    case 0: //Erster Kampf - speziall Parameter
                         fighter = defaultFighterList[enemyCountFighter];
                         enemyCountFighter++;
                         if (enemyCountFighter == COUNT_OF_DEFAULT_ENEMYS) {enemyCountFighter = 0;}
@@ -203,10 +209,10 @@ int main() {
                     return 0;
                 }
 
-                //End of the fight-------------------
+                //End of the fight-----------------------------------------------------------------------------------------------------------
 
 
-                //Item drop
+                //Item drop-----------------------------------------------------------------------------------------------------------
                 hlineAsterix(10);
                 countOfDropItems = 0;
                 if ((getRandomNumber(0,2) > 0 || enemyCount == 0) && enemy.getWeaponIsValid()) {enemy.itemDrop(&hero, enemy.getWeapon()); inventarCount++; countOfDropItems++;}
@@ -215,6 +221,7 @@ int main() {
                 if (enemy.isSomethingInInventory()) {enemy.itemDrop(&hero, enemy.getItemFromInventory(0)); inventarCount++; countOfDropItems++;}
 
                 if ((getRandomNumber(0,10) == 10) && enemyCount == 0) {enemy.itemDrop(&hero, defaultItems[getRandomNumber(17,18)]); inventarCount++; countOfDropItems++;}
+                if ((getRandomNumber(0,10) == 5) && enemyCount == 0) {enemy.itemDrop(&hero, defaultItems[5]); inventarCount++; countOfDropItems++;}
 
 
                 if (inventarCount >= MAX_INVENTORY_SLOTS) {
@@ -223,13 +230,13 @@ int main() {
                     DECONSTRUCT
                     return 0;
                 }
-                //End of item drop
+                //End of item drop-----------------------------------------------------------------------------------------------------------
 
                 if (countOfDropItems > 0) { hlineAsterix(10); }
 
-                //Gold drop
+                //Gold drop-----------------------------------------------------------------------------------------------------------
                 enemy.goldDrop(&hero, enemy.getGold());
-                //End of gold drop
+                //End of gold drop-----------------------------------------------------------------------------------------------------------
 
 //                enemy.~Schurke(); //delete the enemy
                 enemyCount++;
@@ -318,7 +325,9 @@ int main() {
                     break;
 
                 } else {
-                    std::cout << "Ungueltige Eingabe!" << std::endl;
+                    std::cout << "..." << std::endl; //TODO - hier Raumlogik einbauen
+                    //world.setPlayerPosition(3,2);   //TODO TODO TODO Map World sonstiges
+                    World::printMap(world);   //TODO TODO TODO Map World sonstiges
                     break;
                 }
             default:                                                            //INVALID INPUT

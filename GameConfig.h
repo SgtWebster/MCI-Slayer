@@ -9,7 +9,7 @@
 #include <random>
 
 //max Inventory and Equipment Slots
-constexpr int MAX_INVENTORY_SLOTS = 20;
+constexpr int MAX_INVENTORY_SLOTS = 25;
 constexpr int COUNT_OF_DEFAULT_ITEMS = 20;
 
 //hero Defaults
@@ -19,6 +19,9 @@ constexpr int DEFAULT_HERO_GOLD = 0;
 //weitere Defaults
 constexpr int COUNT_OF_DEFAULT_ENEMYS = 5;  // wenn 5 dann -> 5 Fighter und 5 Sorcerer
 
+//MAP Defaults
+constexpr int MAX_MAP_X = 5;
+constexpr int MAX_MAP_Y = 5;
 
 //linien
 void hline();     //horizontal line (standard)

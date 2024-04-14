@@ -22,61 +22,61 @@ Hero::Hero(const std::string& name, int health, int gold, int armorDefenseValue,
     this->statsLVL = 1;
 }
 
-void Hero::attack(Schurke *emeny) {    //Hero greift Schurke an
+void Hero::attack(Schurke *enemy) {    //Hero greift Schurke an
     int attackPower = getRandomNumber(statsANG,statsANG+10);     //rand() % 11 + 15;    //TODO -> Levelabhängigkeit
     int attackPowerMagic = statsMANG;
 
     std::string weaponName;
     weaponName = "";
 
-    if (this->getWeaponIsValid()) {   //wenn eine Waffe ausgerüstet ist, wird der Schaden erhöht
+    if (this->getWeaponIsValid()) {   //wenn eine Waffe ausgerüstet ist, wird der Schaden entsprechend erhöht
         weaponName = this->getWeaponName();
     }
-    attackPower = attackPower + this->getWeaponStrength() - emeny->getPhysicalBodyDefenseValue() - emeny->getArmorStrength();   //Schaden wird durch Rüstung des Gegners verringert;
-    attackPowerMagic = attackPowerMagic + this->getWeaponMagic() + this->getAccessoryStrength() - emeny->getMagicalBodyDefenseValue() - emeny->getArmorMagic();   //Schaden wird durch magische Rüstung des Gegners verringert;
+    attackPower = attackPower + this->getWeaponStrength() - enemy->getPhysicalBodyDefenseValue() - enemy->getArmorStrength();   //Schaden wird durch Rüstung des Gegners verringert;
+    attackPowerMagic = attackPowerMagic + this->getWeaponMagic() + this->getAccessoryStrength() - enemy->getMagicalBodyDefenseValue() - enemy->getArmorMagic();   //Schaden wird durch magische Rüstung des Gegners verringert;
     (attackPower < 0 ? attackPower = 0 : attackPower = attackPower);
     (attackPowerMagic < 0 ? attackPowerMagic = 0 : attackPowerMagic = attackPowerMagic);
 
-    if (this->theForce) {    //wenn die Macht stark ist, wird der Schaden erhöht
+    if (this->theForce) {    //wenn die Macht stark mit der Heldin ist, wird der Schaden erhöht
         attackPower += getRandomNumber(20,30);
     }
 
     attackPower += attackPowerMagic;
 
-    std::cout << this->getNameChar() << " tifft" << (this->getWeaponIsValid() ? " mit ihrem " : "") << weaponName << " " << emeny->getNameChar() << " fuer " << attackPower << " Lebenspunkte!" << (this->getTheForce() ? " Die Macht ist stark mit dieser da!" : "") << std::endl;
-    emeny->getDamage(attackPower);
+    std::cout << this->getNameChar() << " tifft" << (this->getWeaponIsValid() ? " mit ihrem " : "") << weaponName << " " << enemy->getNameChar() << " fuer " << attackPower << " Lebenspunkte!" << (this->getTheForce() ? " Die Macht ist stark mit dieser da!" : "") << std::endl;
+    enemy->getDamage(attackPower);
     if (attackPower == 0) {
-        std::cout << "(*) Der Schurke " << emeny->getNameChar() << " hat den Angriff abgewehrt! Mist!" << std::endl;
+        std::cout << "(*) Der Schurke " << enemy->getNameChar() << " hat den Angriff abgewehrt! Mist!" << std::endl;
     }
     this->setStatsEXP(this->getStatsEXP() + attackPower);
 }
 
 
-bool Hero::startFight(Schurke* emeny) {                     //FIGHT-Modus! Läuft so lange bis der Kampf zu ende ist! false = lost, true = won
-    std::cout << this->getNameChar() << " greift " << emeny->getNameChar() << " an!" << std::endl;
+bool Hero::startFight(Schurke* enemy) {                     //FIGHT-Modus! Läuft so lange bis der Kampf zu ende ist! false = lost, true = won
+    std::cout << this->getNameChar() << " greift " << enemy->getNameChar() << " an!" << std::endl;
     hlineAsterix(10);
     int rounds = 0;
     while (true) {
         if (this->getSpecialIsValid()) {   //Granaten-Special
             this->granate(this->getSpecial());
-            std::cout << emeny->getNameChar() << " wurde von der " << this->getSpecialName() << " getroffen!" << std::endl;
+            std::cout << enemy->getNameChar() << " wurde von der " << this->getSpecialName() << " getroffen!" << std::endl;
             this->special = Item("empty-constructor", 0, 0, false);
             return true;
         }
 
 
-        this->attack(emeny);
-        if (emeny->getHealth() <= 0) {
+        this->attack(enemy);
+        if (enemy->getHealth() <= 0) {
             return true;
         }
-        emeny->attack(this);
+        enemy->attack(this);
         if (this->getHealth() <= 0) {
             return false;
         }
         std::cout << std::endl;
         rounds++;
         if (rounds > 25) {
-            std::cout << "(*) Wieso dauert das so lange? " << emeny->getNameChar() << " faengt vor Uebermuedung und Unterzucker zu schwanken an." << std::endl;
+            std::cout << "(*) Wieso dauert das so lange? " << enemy->getNameChar() << " faengt vor Uebermuedung und Unterzucker zu schwanken an." << std::endl;
             return true;
         }
     }
@@ -156,12 +156,12 @@ void Hero::dodgecry() {
 void Hero::granate(const Item& granate) {
     //std::cout << this->getNameChar() << " wirft " << granate.getName() << std::endl;
     std::cout << "(*) " << this->getNameChar() << " schreit: \"";
-    std::cout << "Wir haben die Heillige Handgranate von Antiochia! Natuerlich! Sie ist eine der Reliquien die sich an meinem Guertel befindet!" << std::endl;
-    std::cout << "Oh HERR, ich bitte dich, segne diese deine Handgranate! Moege sie deine Feinde in die Luft sprengen, in deinem Erbarmen!"<< std::endl;
+    std::cout << "Wir haben die Heillige Handgranate von Antiochia! Natuerlich!" << std::endl << "Sie ist eine der Reliquien die sich an meinem Guertel befindet!" << std::endl;
+    std::cout << "Oh HERR, ich bitte dich, segne diese deine Handgranate!" << std::endl << "Moege sie deine Feinde in die Luft sprengen, in deinem Erbarmen!"<< std::endl;
     std::cout << std::endl;
     std::cout << "Zuerst ziehe die heilige Zuendnadel aus dem Gehause. Sodann sollst du zaehlen bis drei, nicht mehr und nicht weniger."<< std::endl ;
     std::cout << "Drei alleine soll die Nummer sein, die du zaehlst und die Nummer, die du zaehlst, soll Drei und nur Drei sein."<< std::endl;
-    std::cout << "Weder sollst du bis Vier zaehlen, noch sollst du nur bis zur Zwei zaehlen, es sei denn, dass du fortfaehrst zu zaehlen bis zur Drei."<< std::endl;
+    std::cout << "Weder sollst du bis Vier zaehlen, noch sollst du nur bis zur Zwei zaehlen," << std::endl << "es sei denn, dass du fortfaehrst zu zaehlen bis zur Drei."<< std::endl;
     std::cout << "Die Fuenf scheidet voellig aus."<< std::endl;
     std::cout << std::endl;
     std::cout << "Wenn dann die Nummer Drei, welches ist die dritte Nummer von vorne, erreicht ist,"<< std::endl;

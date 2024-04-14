@@ -8,7 +8,7 @@
 
 #include "inventory.h"
 #include "hero.h"
-#include "npc.h"
+//#include "npc.h"
 
 
 void Inventory::addItem(const Item& item) {     // Füge das Item hinzu, wenn das Limit noch nicht erreicht ist
